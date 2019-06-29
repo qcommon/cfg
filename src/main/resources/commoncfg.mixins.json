@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "therealfarfetchd.commoncfg.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MinecraftClientMixin",
+    "ConnectScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
