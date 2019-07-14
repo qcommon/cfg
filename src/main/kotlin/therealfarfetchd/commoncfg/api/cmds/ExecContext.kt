@@ -1,5 +1,7 @@
 package therealfarfetchd.commoncfg.api.cmds
 
+import therealfarfetchd.commoncfg.cmds.impl.Output
+
 interface ExecContext {
 
   val source: ExecSource

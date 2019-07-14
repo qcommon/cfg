@@ -3,8 +3,9 @@
   "package": "therealfarfetchd.commoncfg.mixin",
   "compatibilityLevel": "JAVA_8",
   "client": [
-    "MinecraftClientMixin",
-    "ConnectScreenMixin"
+    "ConnectScreenMixin",
+    "KeyBindingMixin",
+    "MinecraftClientMixin"
   ],
   "injectors": {
     "defaultRequire": 1
