@@ -1,9 +1,11 @@
 package therealfarfetchd.commoncfg.mixin;
 
 import net.minecraft.client.options.KeyBinding;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+
 import therealfarfetchd.commoncfg.binds.KeyBindingExt;
 
 @Mixin(KeyBinding.class)

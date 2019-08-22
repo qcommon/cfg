@@ -15,7 +15,7 @@ class BindsManager : CommandInitializer, Persistable {
 
   override fun write(o: Output) {
     o.println("unbindall")
-    binds.forEach { k, v -> o.println("bind ${Persistable.escape(k)} ${Persistable.escape(v)}") }
+    binds.forEach { (k, v) -> o.println("bind ${Persistable.escape(k)} ${Persistable.escape(v)}") }
   }
 
   override fun onInitialize(api: CommonCfgApi.Mutable) {
@@ -33,7 +33,7 @@ class BindsManager : CommandInitializer, Persistable {
       }
 
       registerSimple("key_listboundkeys") { ctx, _ ->
-        binds.forEach { k, v -> ctx.println("${Persistable.escape(k)} ${Persistable.escape(v)}") }
+        binds.forEach { (k, v) -> ctx.println("${Persistable.escape(k)} ${Persistable.escape(v)}") }
       }
 
       registerSimple("key_findbinding") { ctx, args ->
