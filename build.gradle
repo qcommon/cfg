@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
 	id 'org.jetbrains.kotlin.jvm' version '1.3.40'
-	id 'fabric-loom' version '0.2.3-SNAPSHOT'
+	id 'fabric-loom' version '0.2.5-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -19,11 +19,11 @@ minecraft {
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
-	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	modCompile "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	compile(group: "net.fabricmc", name: "fabric-language-kotlin", version: project.fabric_kotlin_version) {
+	implementation(group: "net.fabricmc", name: "fabric-language-kotlin", version: project.fabric_kotlin_version) {
 		exclude module: 'fabric-loader'
 	}
 }

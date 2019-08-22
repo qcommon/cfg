@@ -12,8 +12,8 @@ import therealfarfetchd.commoncfg.CfgLoadTriggersClient;
 @Mixin(ConnectScreen.class)
 public class ConnectScreenMixin {
 
-    @Inject(method = "method_2130(Ljava/lang/String;I)V", at = @At("HEAD"))
-    private void method_2130(String string_1, int int_1, CallbackInfo ci) {
+    @Inject(method = "connect(Ljava/lang/String;I)V", at = @At("HEAD"))
+    private void connect(String string_1, int int_1, CallbackInfo ci) {
         CfgLoadTriggersClient.INSTANCE.onOpenMPWorld(string_1, int_1);
     }
 

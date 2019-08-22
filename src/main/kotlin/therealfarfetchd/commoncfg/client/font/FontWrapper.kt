@@ -1,15 +1,13 @@
 package therealfarfetchd.commoncfg.client.font
 
-import com.mojang.blaze3d.platform.GlStateManager
+import org.lwjgl.opengl.GL11
 import com.mojang.blaze3d.platform.TextureUtil
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormats
-import org.lwjgl.opengl.GL11
-import org.lwjgl.opengl.GL45
 import java.awt.Color
 import java.nio.ByteBuffer
 import java.util.*
-
 
 private val buffer = ByteBuffer.allocateDirect(10000000).asIntBuffer()
 
@@ -64,10 +62,10 @@ class FontWrapper(val font: BDF) {
     buf.begin(GL11.GL_QUADS, VertexFormats.POSITION_UV_COLOR)
 
     val texIndex = textureIndex[c] ?: return Pair(0, 0)
-    GlStateManager.bindTexture(textures[texIndex])
+    RenderSystem.bindTexture(textures[texIndex])
     val height = heightMap[texIndex]!!
     val width = widthMap[texIndex]!!
-    GlStateManager.color4f(1f, 1f, 1f, 1f)
+    RenderSystem.color4f(1f, 1f, 1f, 1f)
     val ty = glyphPosY[c] ?: glyphPosY[font.defaultGlyph] ?: return Pair(0, 0)
     val g = font.glyphs[c] ?: font.glyphs[font.defaultGlyph] ?: return Pair(0, 0)
     val tix = 0.0
@@ -103,7 +101,7 @@ class FontWrapper(val font: BDF) {
     for (i in 0 until width * height)
       buffer.put(if (bitmap[i]) -1 else 0)
     buffer.flip()
-    GlStateManager.bindTexture(textures[texture])
+    RenderSystem.bindTexture(textures[texture])
     GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, 0, y, width, height, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer)
   }
 
@@ -124,7 +122,7 @@ class FontWrapper(val font: BDF) {
       widthMap += i to textureWidth
       heightMap += i to height
 
-      GlStateManager.bindTexture(texid)
+      RenderSystem.bindTexture(texid)
       TextureUtil.initTexture(null, textureWidth, height)
 
       println("Allocated $textureWidth*$height texture ($texid)")

@@ -1,6 +1,6 @@
 package therealfarfetchd.commoncfg.client.gui
 
-import com.mojang.blaze3d.platform.GlStateManager
+import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.TranslatableText
 import org.lwjgl.glfw.GLFW
@@ -34,9 +34,9 @@ class TerminalScreen(val parent: Screen?, val terminal: Terminal) : Screen(Trans
     val font = CommonCfgClient.getFont() ?: return
     val scale = mc.window.scaleFactor
 
-    GlStateManager.pushMatrix()
-    GlStateManager.scaled(1 / scale, 1 / scale, 1.0)
-    GlStateManager.translated((width * scale - getWidgetWidth(font)) / 2, 0.0, 0.0)
+    RenderSystem.pushMatrix()
+    RenderSystem.scaled(1 / scale, 1 / scale, 1.0)
+    RenderSystem.translated((width * scale - getWidgetWidth(font)) / 2, 0.0, 0.0)
     drawBackground(font)
 
     if (terminal.cursor() && System.currentTimeMillis() / 250 % 2 % 2 == 0L) {
@@ -47,11 +47,11 @@ class TerminalScreen(val parent: Screen?, val terminal: Terminal) : Screen(Trans
         color = Color(pallette.getColor(terminal.getFGCol(x, y) ?: 0, terminal.getHighlight(x, y) ?: ColorPalette.Highlight.Normal)))
     }
 
-    GlStateManager.popMatrix()
+    RenderSystem.popMatrix()
   }
 
   private fun drawBackground(font: FontWrapper) {
-    GlStateManager.disableTexture()
+    RenderSystem.disableTexture()
     for (x in 0 until terminal.width()) for (y in 0 until terminal.height()) {
       fill(2 + x * font.charWidth, y * font.charHeight,
         2 + (x + 1) * font.charWidth, (y + 1) * font.charHeight,
@@ -65,16 +65,16 @@ class TerminalScreen(val parent: Screen?, val terminal: Terminal) : Screen(Trans
     fill(0, 0, 2, th, bordercol)
     fill(tw, 0, tw + 2, th, bordercol)
     fill(0, th, tw + 2, th + 2, bordercol)
-    GlStateManager.enableTexture()
+    RenderSystem.enableTexture()
   }
 
   private fun drawCursorAt(font: FontWrapper, x: Int, y: Int) {
     if (x !in 0 until terminal.width() || y !in 0 until terminal.height()) return
-    GlStateManager.disableTexture()
+    RenderSystem.disableTexture()
     val x1 = x * font.charWidth
     val y1 = y * font.charHeight
     fill(2 + x1, y1 + font.charHeight - 3, 2 + x1 + font.charWidth, y1 + font.charHeight - 1, 0xFFBBBBBB.toInt())
-    GlStateManager.enableTexture()
+    RenderSystem.enableTexture()
   }
 
   override fun keyPressed(key: Int, scancode: Int, modifiers: Int): Boolean {
