@@ -6,6 +6,8 @@ interface CommandDispatcher {
 
   fun exec(line: String, source: ExecSource = Unknown)
 
+  fun undoExec(line: String, source: ExecSource = Unknown)
+
   fun execFile(file: String)
 
 }

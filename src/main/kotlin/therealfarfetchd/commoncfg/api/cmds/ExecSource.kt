@@ -4,5 +4,6 @@ enum class ExecSource {
   CommandLine,
   Script,
   Event,
+  Bind,
   Unknown
 }

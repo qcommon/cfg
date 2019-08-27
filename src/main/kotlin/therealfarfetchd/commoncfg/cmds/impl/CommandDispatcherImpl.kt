@@ -15,19 +15,33 @@ class CommandDispatcherImpl(val reg: CommandRegistryImpl, val output: Output) : 
     val ctx = ExecContextImpl(source, reg, this, output)
     val lines = tokenize(line)
     for (c in lines) {
-      val cmd = c.first()
-      val args = c.drop(1)
-      val command = reg.lookup(cmd)
-      if (command != null) {
-        try {
-          command.exec(ctx, *args.toTypedArray())
-        } catch (e: Exception) {
-          output.println("exec error in '$cmd': ${e.message}")
-          CommonCfg.logger.error("Command line: ${c.joinToString(" ", transform = Persistable.Companion::escape)}")
-          e.printStackTrace()
-        }
-      } else output.println("Command not found: $cmd")
+      execLineDo(c, ctx)
     }
+  }
+
+  override fun undoExec(line: String, source: ExecSource) {
+    val lines = tokenize(line)
+    if (lines.size == 1 && lines[0].isNotEmpty() && lines[0][0].startsWith("+")) {
+      val ctx = ExecContextImpl(source, reg, this, output)
+      val cmd = lines[0].toMutableList()
+      cmd[0] = "-${cmd[0].substring(1)}"
+      execLineDo(cmd, ctx)
+    }
+  }
+
+  private fun execLineDo(c: List<String>, ctx: ExecContextImpl) {
+    val cmd = c.first()
+    val args = c.drop(1)
+    val command = reg.lookup(cmd)
+    if (command != null) {
+      try {
+        command.exec(ctx, *args.toTypedArray())
+      } catch (e: Exception) {
+        output.println("exec error in '$cmd': ${e.message}")
+        CommonCfg.logger.error("Command line: ${c.joinToString(" ", transform = Persistable.Companion::escape)}")
+        e.printStackTrace()
+      }
+    } else output.println("Command not found: $cmd")
   }
 
   override fun execFile(file: String) {
