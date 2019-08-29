@@ -2,8 +2,8 @@ package therealfarfetchd.commoncfg
 
 import org.apache.logging.log4j.LogManager
 import therealfarfetchd.commoncfg.api.CommonCfgApi
-import therealfarfetchd.commoncfg.binds.BindsManager
-import therealfarfetchd.commoncfg.binds.InputManager
+import therealfarfetchd.commoncfg.client.binds.BindsManager
+import therealfarfetchd.commoncfg.client.binds.InputManager
 import therealfarfetchd.commoncfg.cmds.impl.CommandDispatcherImpl
 import therealfarfetchd.commoncfg.cmds.impl.CommandRegistryImpl
 import therealfarfetchd.commoncfg.cmds.impl.CvarRegistryImpl
@@ -26,6 +26,7 @@ class ApiImpl : CommonCfgApi.Mutable {
   override val cvarRegistry = CvarRegistryImpl(commandRegistry, persistRegistry)
   override val dispatcher = CommandDispatcherImpl(commandRegistry, termOutput)
 
+  // TODO this is client specific
   val bm = BindsManager(dispatcher)
   val im = InputManager(bm)
 

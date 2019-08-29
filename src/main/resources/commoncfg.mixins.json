@@ -4,8 +4,11 @@
   "compatibilityLevel": "JAVA_8",
   "client": [
     "ConnectScreenMixin",
+    "DoubleOptionMixin",
+    "InGameHudMixin",
     "InputUtilMixin",
     "KeyBindingMixin",
+    "KeyboardMixin",
     "MinecraftClientMixin"
   ],
   "injectors": {

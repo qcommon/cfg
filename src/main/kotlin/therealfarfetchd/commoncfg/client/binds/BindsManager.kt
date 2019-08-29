@@ -1,4 +1,4 @@
-package therealfarfetchd.commoncfg.binds
+package therealfarfetchd.commoncfg.client.binds
 
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.options.KeyBinding
@@ -7,7 +7,7 @@ import therealfarfetchd.commoncfg.api.cmds.CommandDispatcher
 import therealfarfetchd.commoncfg.api.cmds.CommandInitializer
 import therealfarfetchd.commoncfg.api.cmds.ExecSource.Bind
 import therealfarfetchd.commoncfg.api.cmds.Persistable
-import therealfarfetchd.commoncfg.binds.KeyPrecedence.GREATER
+import therealfarfetchd.commoncfg.client.binds.KeyPrecedence.GREATER
 import therealfarfetchd.commoncfg.cmds.impl.Output
 
 class BindsManager(val cd: CommandDispatcher) : CommandInitializer, Persistable {
@@ -25,9 +25,6 @@ class BindsManager(val cd: CommandDispatcher) : CommandInitializer, Persistable 
     val newPressed = considered - pressedBinds
     val released = pressedBinds - considered
 
-    println("Pressed $newPressed")
-    println("Released $released")
-
     newPressed.mapNotNull(binds::get).forEach { cd.exec(it, Bind) }
     released.mapNotNull(binds::get).forEach { cd.undoExec(it) }
 
@@ -37,7 +34,9 @@ class BindsManager(val cd: CommandDispatcher) : CommandInitializer, Persistable 
 
   override fun write(o: Output) {
     o.println("unbindall")
-    binds.forEach { (k, v) -> o.println("bind ${Persistable.escape(k.fmt())} ${Persistable.escape(v)}") }
+    binds.entries
+      .sortedBy { (k, _) -> k.fmt() }
+      .forEach { (k, v) -> o.println("bind ${Persistable.escape(k.fmt())} ${Persistable.escape(v)}") }
   }
 
   override fun onInitialize(api: CommonCfgApi.Mutable) {

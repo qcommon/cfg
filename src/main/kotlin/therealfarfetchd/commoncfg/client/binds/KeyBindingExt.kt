@@ -1,4 +1,4 @@
-package therealfarfetchd.commoncfg.binds
+package therealfarfetchd.commoncfg.client.binds
 
 import net.minecraft.client.options.KeyBinding
 

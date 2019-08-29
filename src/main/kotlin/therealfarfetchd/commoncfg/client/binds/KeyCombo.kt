@@ -1,4 +1,4 @@
-package therealfarfetchd.commoncfg.binds
+package therealfarfetchd.commoncfg.client.binds
 
 data class KeyCombo(val keys: Set<Key>) {
 
@@ -12,7 +12,7 @@ data class KeyCombo(val keys: Set<Key>) {
   }
 
   fun fmt(): String {
-    return keys.sortedBy { it.scancode }.joinToString("+") { it.name().orEmpty() }
+    return keys.sortedBy { it.sortIndex }.joinToString("+") { it.id }
   }
 
   companion object {
@@ -22,10 +22,10 @@ data class KeyCombo(val keys: Set<Key>) {
       while (true) {
         val nextSep = s.indexOf('+', i + 1)
         if (nextSep == -1) {
-          keys += Key.fromName(s.substring(i)) ?: return null
+          keys += Key.byId(s.substring(i)) ?: return null
           break
         } else {
-          keys += Key.fromName(s.substring(i, nextSep)) ?: return null
+          keys += Key.byId(s.substring(i, nextSep)) ?: return null
           i = nextSep + 1
         }
       }

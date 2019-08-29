@@ -16,12 +16,12 @@
     "main": [{ "value": "therealfarfetchd.commoncfg.CommonCfg", "adapter": "kotlin" }],
     "client": [{ "value": "therealfarfetchd.commoncfg.CommonCfgClient", "adapter": "kotlin" }],
     "commands": ["therealfarfetchd.commoncfg.CommandInit"],
-    "commands_client": ["therealfarfetchd.commoncfg.CommandInitClient"]
+    "commands_client": ["therealfarfetchd.commoncfg.CommandInitClient", "therealfarfetchd.commoncfg.client.VanillaWrapper"]
   },
   "mixins": [
     "commoncfg.mixins.json"
   ],
-  "requires": {
+  "depends": {
     "fabricloader": ">=0.4.0",
     "fabric": "*",
     "fabric-language-kotlin": ">=1.3.30"

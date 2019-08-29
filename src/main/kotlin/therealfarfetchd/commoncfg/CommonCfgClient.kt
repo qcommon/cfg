@@ -17,7 +17,7 @@ import therealfarfetchd.commoncfg.common.rconclient.RconClient
 
 object CommonCfgClient : ClientModInitializer {
 
-  private lateinit var kbConsole: FabricKeyBinding
+  internal lateinit var kbConsole: FabricKeyBinding
 
   private var lastFont: String? = null
   private var font: FontWrapper? = null

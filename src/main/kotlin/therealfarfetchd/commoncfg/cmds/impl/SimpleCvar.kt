@@ -13,7 +13,9 @@ class SimpleCvar<T>(override val name: String, override val desc: String?, val f
 
   override var value: String
     get() = mapper.toStr(field())
-    set(value) = this.field.set(mapper.parse(value))
+    set(value) {
+      mapper.parse(value)?.let { this.field.set(it) }
+    }
 
   override fun exec(ctx: ExecContext, vararg args: String) {
     if (args.isEmpty()) {

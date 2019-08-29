@@ -1,6 +1,5 @@
 package therealfarfetchd.commoncfg
 
-import net.minecraft.client.MinecraftClient
 import therealfarfetchd.commoncfg.api.CommonCfgApi
 import therealfarfetchd.commoncfg.api.cmds.CommandInitializer
 import therealfarfetchd.commoncfg.api.cmds.provide
@@ -39,9 +38,6 @@ class CommandInitClient : CommandInitializer {
     api.cvarRegistry.provide("cl_console_width", Configuration::consoleWidth, "client")
     api.cvarRegistry.provide("cl_console_height", Configuration::consoleHeight, "client")
     api.cvarRegistry.provide("cl_console_font", Configuration::consoleFont, "client")
-    api.cvarRegistry.provide("cl_showdebug", MinecraftClient.getInstance().options::debugEnabled)
-    api.cvarRegistry.provide("cl_showprofiler", MinecraftClient.getInstance().options::debugProfilerEnabled)
-    api.cvarRegistry.provide("cl_showtps", MinecraftClient.getInstance().options::debugTpsEnabled)
 
     CommonCfgClient.rcon.onInitialize(api)
   }

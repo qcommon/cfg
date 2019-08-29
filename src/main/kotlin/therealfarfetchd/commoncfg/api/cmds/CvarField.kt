@@ -27,6 +27,11 @@ interface CvarField<T> : () -> T {
         }
       }
     }
+
+    fun <T> from(getter: () -> T, setter: (T) -> Unit): CvarField<T> = object : CvarField<T> {
+      override fun invoke(): T = getter()
+      override fun set(value: T) = setter(value)
+    }
   }
 
 }

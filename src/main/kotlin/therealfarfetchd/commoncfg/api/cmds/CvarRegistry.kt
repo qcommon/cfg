@@ -23,6 +23,7 @@ interface CvarRegistry {
         Int::class -> IntMapper
         Float::class -> FloatMapper
         Boolean::class -> BooleanMapper
+        Double::class -> DoubleMapper.Default
         else -> error("No default mapper for type '${T::class}'")
       } as CvarMapper<T>
     }
