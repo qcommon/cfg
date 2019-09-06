@@ -10,7 +10,7 @@ interface CvarRegistry {
 
   interface Mutable : CvarRegistry {
     @JvmDefault
-    fun <T> provide(name: String, field: Field, on: Any, persistFile: String?, mapper: CvarMapper<T>) =
+    fun <T> provide(name: String, field: Field, on: Any?, persistFile: String?, mapper: CvarMapper<T>) =
       provide(name, CvarField.from(field, on), persistFile, mapper)
 
     fun <T> provide(name: String, field: CvarField<T>, persistFile: String?, mapper: CvarMapper<T>): ConVar

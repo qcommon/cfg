@@ -3,7 +3,6 @@ package therealfarfetchd.commoncfg.client.binds
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import org.lwjgl.glfw.GLFW
-import therealfarfetchd.commoncfg.client.ext.repeatEvents
 
 class InputManager(private val bm: BindsManager) {
 
@@ -31,6 +30,14 @@ class InputManager(private val bm: BindsManager) {
     if (screen == null || screen.passEvents) {
       bm.recalculatePressedKeys(state)
     }
+  }
+
+  fun onMouse(window: Long, button: Int, action: Int, mods: Int) {
+
+  }
+
+  fun onMouseScroll(window: Long, xoffset: Double, yoffset: Double) {
+
   }
 
   fun onKey(window: Long, key: Int, scancode: Int, action: Int, mods: Int) {

@@ -37,7 +37,7 @@ class FontWrapper(val font: BDF) {
       charWidth = maxOf(charWidth, v.width)
       charHeight = maxOf(charHeight, v.height)
 
-      if (currentHeight + v.height > heightMap[currentTex]!!) {
+      if (currentHeight + v.height > heightMap.getValue(currentTex)) {
         currentHeight = 0
         currentTex++
         if (currentTex > textures.size)
@@ -63,8 +63,8 @@ class FontWrapper(val font: BDF) {
 
     val texIndex = textureIndex[c] ?: return Pair(0, 0)
     RenderSystem.bindTexture(textures[texIndex])
-    val height = heightMap[texIndex]!!
-    val width = widthMap[texIndex]!!
+    val height = heightMap.getValue(texIndex)
+    val width = widthMap.getValue(texIndex)
     RenderSystem.color4f(1f, 1f, 1f, 1f)
     val ty = glyphPosY[c] ?: glyphPosY[font.defaultGlyph] ?: return Pair(0, 0)
     val g = font.glyphs[c] ?: font.glyphs[font.defaultGlyph] ?: return Pair(0, 0)

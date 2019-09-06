@@ -14,7 +14,7 @@ interface CvarField<T> : () -> T {
       override fun set(value: T) = prop.set(value)
     }
 
-    fun <T> from(f: Field, on: Any): CvarField<T> {
+    fun <T> from(f: Field, on: Any?): CvarField<T> {
       val getter = MethodHandles.lookup().unreflectGetter(f).bindTo(on)
       val setter = MethodHandles.lookup().unreflectSetter(f).bindTo(on)
 

@@ -25,9 +25,6 @@ object Configuration {
 class CommandInit : CommandInitializer {
 
   override fun onInitialize(api: CommonCfgApi.Mutable) {
-    api.commandRegistry.registerSimple("test") { ctx, _ ->
-      ctx.println("Test!")
-    }
   }
 
 }
