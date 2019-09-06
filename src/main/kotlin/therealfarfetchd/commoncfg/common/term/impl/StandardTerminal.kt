@@ -1,6 +1,6 @@
 package therealfarfetchd.commoncfg.common.term.impl
 
-import therealfarfetchd.commoncfg.common.term.ColorPalette
+import therealfarfetchd.commoncfg.common.term.ColorPalette.Highlight
 import therealfarfetchd.commoncfg.common.term.Key
 import therealfarfetchd.commoncfg.common.term.Terminal
 
@@ -17,7 +17,7 @@ class StandardTerminal : Terminal {
   // Default values.
   val dbgcol = 0
   val dfgcol = 7
-  val dhl = ColorPalette.Highlight.Normal
+  val dhl = Highlight.Normal
 
   private var bgcol = dbgcol
   private var fgcol = dfgcol
@@ -48,7 +48,7 @@ class StandardTerminal : Terminal {
     attribMem = ByteArray(width * height) { getAttrib() }
   }
 
-  private fun getAttrib() =
+  private fun getAttrib(bgcol: Int = this.bgcol, fgcol: Int = this.fgcol, hl: Highlight = this.hl) =
     ((bgcol and 7) or
       ((fgcol and 7) shl 3) or
       (hl.id shl 6)).toByte()
@@ -56,7 +56,7 @@ class StandardTerminal : Terminal {
   private fun decode(attrib: Byte) = Triple(
     attrib.toInt() and 0xFF and 7,
     attrib.toInt() and 0xFF shr 3 and 7,
-    ColorPalette.Highlight.byId(attrib.toInt() and 0xFF shr 6 and 2)
+    Highlight.byId(attrib.toInt() and 0xFF shr 6 and 2)
   )
 
   override fun resetInput() {
@@ -99,6 +99,11 @@ class StandardTerminal : Terminal {
     else -> null
   }
 
+  private fun getAttrib(x: Int, y: Int): Byte? = when {
+    x in 0 until width && y in 0 until height -> attribMem[x + y * width]
+    else -> null
+  }
+
   override fun setBGCol(color: Int) = when (color) {
     in 0..7 -> bgcol = color
     9 -> bgcol = dbgcol
@@ -121,7 +126,7 @@ class StandardTerminal : Terminal {
     else -> null
   }
 
-  override fun setHighlight(highlight: ColorPalette.Highlight) {
+  override fun setHighlight(highlight: Highlight) {
     hl = highlight
   }
 
@@ -143,7 +148,14 @@ class StandardTerminal : Terminal {
       get(dx, dy) ?: ' '
     }
 
+    val attribMemNew = ByteArray(x * y) {
+      val dx = it % width
+      val dy = it / width
+      getAttrib(dx, dy) ?: getAttrib(dbgcol, dfgcol, dhl)
+    }
+
     displayMem = displayMemNew
+    attribMem = attribMemNew
     width = x
     height = y
   }

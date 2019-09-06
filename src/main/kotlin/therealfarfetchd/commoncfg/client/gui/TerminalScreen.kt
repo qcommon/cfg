@@ -16,7 +16,7 @@ import java.awt.Color
 
 class TerminalScreen(val parent: Screen?, val terminal: Terminal) : Screen(TranslatableText("gui.$ModID.terminal")) {
 
-  val pallette = ColorPalette()
+  val palette = ColorPalette()
 
   override fun init() {
     super.init()
@@ -44,7 +44,7 @@ class TerminalScreen(val parent: Screen?, val terminal: Terminal) : Screen(Trans
     }
     for (x in 0 until terminal.width()) for (y in 0 until terminal.height()) {
       font.draw(terminal.get(x, y) ?: ' ', 2 + x * font.charWidth, y * font.charHeight, respectPosition = false,
-        color = Color(pallette.getColor(terminal.getFGCol(x, y) ?: 0, terminal.getHighlight(x, y) ?: ColorPalette.Highlight.Normal)))
+        color = Color(palette.getColor(terminal.getFGCol(x, y) ?: 0, terminal.getHighlight(x, y) ?: ColorPalette.Highlight.Normal)))
     }
 
     RenderSystem.popMatrix()
@@ -55,7 +55,7 @@ class TerminalScreen(val parent: Screen?, val terminal: Terminal) : Screen(Trans
     for (x in 0 until terminal.width()) for (y in 0 until terminal.height()) {
       fill(2 + x * font.charWidth, y * font.charHeight,
         2 + (x + 1) * font.charWidth, (y + 1) * font.charHeight,
-        0xCF000000.toInt() or pallette.getColor(terminal.getBGCol(x, y) ?: 0))
+        0xCF000000.toInt() or palette.getColor(terminal.getBGCol(x, y) ?: 0))
     }
     val bordercol = 0xFF2160B1.toInt()
 

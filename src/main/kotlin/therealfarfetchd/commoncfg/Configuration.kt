@@ -7,8 +7,18 @@ import therealfarfetchd.commoncfg.api.cmds.provide
 
 object Configuration {
 
-  var consoleWidth = 80
-  var consoleHeight = 25
+  var consoleWidth
+    get() = CommonCfg.api.term.width()
+    set(value) {
+      CommonCfg.api.term.resize(value, consoleHeight)
+    }
+
+  var consoleHeight
+    get() = CommonCfg.api.term.height()
+    set(value) {
+      CommonCfg.api.term.resize(consoleWidth, value)
+    }
+
   var consoleFont = "ter-u16n"
 
 }
