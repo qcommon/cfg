@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "common-cfg",
+  "id": "qcommon-cfg",
   "version": "1.0.0",
-  "name": "Common Config",
+  "name": "qcommon-cfg",
   "description": "Config and debug console for therealfarfetchd's mods.",
   "authors": ["the_real_farfetchd"],
   "contact": {

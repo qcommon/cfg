@@ -1,10 +1,10 @@
 package therealfarfetchd.commoncfg.client.font
 
-import org.lwjgl.opengl.GL11
-import com.mojang.blaze3d.platform.TextureUtil
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormats
+import net.minecraft.client.texture.TextureUtil
+import org.lwjgl.opengl.GL11
 import java.awt.Color
 import java.nio.ByteBuffer
 import java.util.*
