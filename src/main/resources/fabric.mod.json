@@ -3,7 +3,7 @@
   "id": "qcommon-cfg",
   "version": "1.0.0",
   "name": "qcommon-cfg",
-  "description": "Config and debug console for therealfarfetchd's mods.",
+  "description": "Configuration, debugging and utility console.",
   "authors": ["the_real_farfetchd"],
   "contact": {
     "homepage": "https://github.com/qcommon/cfg",
