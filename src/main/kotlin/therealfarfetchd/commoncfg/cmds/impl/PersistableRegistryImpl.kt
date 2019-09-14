@@ -1,16 +1,13 @@
 package therealfarfetchd.commoncfg.cmds.impl
 
-import therealfarfetchd.commoncfg.api.cmds.CommandDispatcher
-import therealfarfetchd.commoncfg.api.cmds.CommandInitializer
 import therealfarfetchd.commoncfg.api.cmds.CommandRegistry
-import therealfarfetchd.commoncfg.api.cmds.CvarRegistry
 import therealfarfetchd.commoncfg.api.cmds.Persistable
 import therealfarfetchd.commoncfg.api.cmds.PersistableRegistry
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Paths
 
-class PersistableRegistryImpl(reg:CommandRegistry.Mutable) : PersistableRegistry.Mutable {
+class PersistableRegistryImpl(reg: CommandRegistry.Mutable) : PersistableRegistry.Mutable {
 
   override val elements: MutableSet<Persistable> = mutableSetOf()
 
@@ -31,7 +28,7 @@ class PersistableRegistryImpl(reg:CommandRegistry.Mutable) : PersistableRegistry
       }
     }
     for ((file, strs) in store) {
-      val path = Paths.get("config", "ccfg", "$file.cfg")
+      val path = Paths.get("config", "$file.cfg")
       try {
         Files.write(path, strs)
       } catch (e: IOException) {
