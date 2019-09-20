@@ -6,8 +6,6 @@ import org.apache.logging.log4j.LogManager
 import therealfarfetchd.commoncfg.api.CommonCfgApi
 import therealfarfetchd.commoncfg.api.cmds.CommandInitializer
 import therealfarfetchd.commoncfg.api.cmds.Persistable
-import java.nio.file.Files
-import java.nio.file.Paths
 
 const val ModID = "common-cfg"
 
@@ -19,7 +17,6 @@ object CommonCfg : ModInitializer {
 
   override fun onInitialize() {
     CommonCfgApi.instance = api
-    Files.createDirectories(Paths.get("config", "ccfg"))
     setupEntrypoints(FabricLoader.getInstance().getEntrypoints("commands", CommandInitializer::class.java))
   }
 

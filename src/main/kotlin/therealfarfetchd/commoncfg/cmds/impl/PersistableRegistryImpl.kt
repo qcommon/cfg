@@ -1,11 +1,11 @@
 package therealfarfetchd.commoncfg.cmds.impl
 
+import net.fabricmc.loader.api.FabricLoader
 import therealfarfetchd.commoncfg.api.cmds.CommandRegistry
 import therealfarfetchd.commoncfg.api.cmds.Persistable
 import therealfarfetchd.commoncfg.api.cmds.PersistableRegistry
 import java.io.IOException
 import java.nio.file.Files
-import java.nio.file.Paths
 
 class PersistableRegistryImpl(reg: CommandRegistry.Mutable) : PersistableRegistry.Mutable {
 
@@ -28,7 +28,7 @@ class PersistableRegistryImpl(reg: CommandRegistry.Mutable) : PersistableRegistr
       }
     }
     for ((file, strs) in store) {
-      val path = Paths.get("config", "$file.cfg")
+      val path = FabricLoader.getInstance().configDirectory.toPath().resolve("$file.cfg")
       try {
         Files.write(path, strs)
       } catch (e: IOException) {

@@ -1,5 +1,6 @@
 package therealfarfetchd.commoncfg.cmds.impl
 
+import net.fabricmc.loader.api.FabricLoader
 import therealfarfetchd.commoncfg.CommonCfg
 import therealfarfetchd.commoncfg.api.cmds.CommandDispatcher
 import therealfarfetchd.commoncfg.api.cmds.ExecSource
@@ -7,7 +8,6 @@ import therealfarfetchd.commoncfg.api.cmds.ExecSource.Script
 import therealfarfetchd.commoncfg.api.cmds.Persistable
 import java.io.IOException
 import java.nio.file.Files
-import java.nio.file.Paths
 
 class CommandDispatcherImpl(val reg: CommandRegistryImpl, val output: Output) : CommandDispatcher {
 
@@ -32,7 +32,7 @@ class CommandDispatcherImpl(val reg: CommandRegistryImpl, val output: Output) : 
 
   override fun execFile(file: String) {
     val file = "$file.cfg"
-    val p = Paths.get("config", "ccfg", file)
+    val p = FabricLoader.getInstance().configDirectory.toPath()
     try {
       val lines = Files.readAllLines(p)
       for (line in lines) exec(line, Script)
