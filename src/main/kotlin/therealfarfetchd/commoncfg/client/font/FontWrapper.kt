@@ -68,17 +68,17 @@ class FontWrapper(val font: BDF) {
     RenderSystem.color4f(1f, 1f, 1f, 1f)
     val ty = glyphPosY[c] ?: glyphPosY[font.defaultGlyph] ?: return Pair(0, 0)
     val g = font.glyphs[c] ?: font.glyphs[font.defaultGlyph] ?: return Pair(0, 0)
-    val tix = 0.0
-    val tiy = ty / height.toDouble()
-    val tiw = g.width / width.toDouble()
-    val tih = g.height / height.toDouble()
+    val tix = 0.0f
+    val tiy = ty / height.toFloat()
+    val tiw = g.width / width.toFloat()
+    val tih = g.height / height.toFloat()
     val px = x.toDouble() + if (respectPosition) g.xOff else 0
     val py = y.toDouble() + if (respectPosition) g.yOff else 0
 
-    buf.vertex(px, py, 0.0).texture(tix, tiy).color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f).next()
-    buf.vertex(px, py + g.height, 0.0).texture(tix, tiy + tih).color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f).next()
-    buf.vertex(px + g.width, py + g.height, 0.0).texture(tix + tiw, tiy + tih).color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f).next()
-    buf.vertex(px + g.width, py, 0.0).texture(tix + tiw, tiy).color(color.red / 255f, color.green / 255f, color.blue / 255f, color.alpha / 255f).next()
+    buf.vertex(px, py, 0.0).texture(tix, tiy).color(color.red, color.green, color.blue, color.alpha).next()
+    buf.vertex(px, py + g.height, 0.0).texture(tix, tiy + tih).color(color.red, color.green, color.blue, color.alpha).next()
+    buf.vertex(px + g.width, py + g.height, 0.0).texture(tix + tiw, tiy + tih).color(color.red, color.green, color.blue, color.alpha).next()
+    buf.vertex(px + g.width, py, 0.0).texture(tix + tiw, tiy).color(color.red, color.green, color.blue, color.alpha).next()
 
     t.draw()
     return Pair(g.dwidthX, g.dwidthY)

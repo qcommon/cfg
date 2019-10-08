@@ -15,7 +15,7 @@ import therealfarfetchd.commoncfg.api.CommonCfgApi;
 @Mixin(MinecraftClient.class)
 public class MinecraftClientMixin {
 
-    @Inject(method = "init()V", at = @At("RETURN"))
+    @Inject(method = "<init>(Lnet/minecraft/client/RunArgs;)V", at = @At("RETURN"))
     private void init(CallbackInfo ci) {
         CommonCfgClient.INSTANCE.onGameLoaded();
     }
