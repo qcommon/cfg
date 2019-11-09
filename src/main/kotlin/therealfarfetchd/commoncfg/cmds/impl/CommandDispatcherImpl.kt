@@ -32,7 +32,7 @@ class CommandDispatcherImpl(val reg: CommandRegistryImpl, val output: Output) : 
 
   override fun execFile(file: String) {
     val file = "$file.cfg"
-    val p = FabricLoader.getInstance().configDirectory.toPath()
+    val p = FabricLoader.getInstance().configDirectory.toPath().resolve(file)
     try {
       val lines = Files.readAllLines(p)
       for (line in lines) exec(line, Script)

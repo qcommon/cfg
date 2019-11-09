@@ -58,8 +58,8 @@ class FontWrapper(val font: BDF) {
    */
   fun draw(c: Char, x: Int, y: Int, color: Color = Color(0.75f, 0.75f, 0.75f, 1f), respectPosition: Boolean = true): Pair<Int, Int> {
     val t = Tessellator.getInstance()
-    val buf = t.bufferBuilder
-    buf.begin(GL11.GL_QUADS, VertexFormats.POSITION_UV_COLOR)
+    val buf = t.buffer
+    buf.begin(GL11.GL_QUADS, VertexFormats.POSITION_COLOR_TEXTURE)
 
     val texIndex = textureIndex[c] ?: return Pair(0, 0)
     RenderSystem.bindTexture(textures[texIndex])
@@ -75,10 +75,10 @@ class FontWrapper(val font: BDF) {
     val px = x.toDouble() + if (respectPosition) g.xOff else 0
     val py = y.toDouble() + if (respectPosition) g.yOff else 0
 
-    buf.vertex(px, py, 0.0).texture(tix, tiy).color(color.red, color.green, color.blue, color.alpha).next()
-    buf.vertex(px, py + g.height, 0.0).texture(tix, tiy + tih).color(color.red, color.green, color.blue, color.alpha).next()
-    buf.vertex(px + g.width, py + g.height, 0.0).texture(tix + tiw, tiy + tih).color(color.red, color.green, color.blue, color.alpha).next()
-    buf.vertex(px + g.width, py, 0.0).texture(tix + tiw, tiy).color(color.red, color.green, color.blue, color.alpha).next()
+    buf.vertex(px, py, 0.0).color(color.red, color.green, color.blue, color.alpha).texture(tix, tiy).next()
+    buf.vertex(px, py + g.height, 0.0).color(color.red, color.green, color.blue, color.alpha).texture(tix, tiy + tih).next()
+    buf.vertex(px + g.width, py + g.height, 0.0).color(color.red, color.green, color.blue, color.alpha).texture(tix + tiw, tiy + tih).next()
+    buf.vertex(px + g.width, py, 0.0).color(color.red, color.green, color.blue, color.alpha).texture(tix + tiw, tiy).next()
 
     t.draw()
     return Pair(g.dwidthX, g.dwidthY)
