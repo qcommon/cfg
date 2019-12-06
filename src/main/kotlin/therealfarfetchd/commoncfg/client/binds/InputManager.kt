@@ -3,10 +3,16 @@ package therealfarfetchd.commoncfg.client.binds
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.screen.Screen
 import org.lwjgl.glfw.GLFW
+import therealfarfetchd.commoncfg.client.ext.repeatEvents
+import kotlin.math.abs
+import kotlin.math.roundToInt
+import kotlin.math.sign
 
 class InputManager(private val bm: BindsManager) {
 
   private val state = mutableSetOf<Key>()
+
+  private var dyWheel = 0.0
 
   fun keys() = state.sortedBy { it.sortIndex }.joinToString { it.id }
 
@@ -37,7 +43,26 @@ class InputManager(private val bm: BindsManager) {
   }
 
   fun onMouseScroll(window: Long, xoffset: Double, yoffset: Double) {
+    val mc = MinecraftClient.getInstance()
+    if (window != mc.window.handle) return
+    if (mc.overlay != null) return
+    val f = (if (mc.options.discreteMouseScroll) yoffset.sign else yoffset) * mc.options.mouseWheelSensitivity
 
+    mc.currentScreen?.also { screen ->
+      val g = mc.mouse.x * mc.getWindow().scaledWidth.toDouble() / mc.getWindow().width.toDouble()
+      val h = mc.mouse.y * mc.getWindow().scaledHeight.toDouble() / mc.getWindow().height.toDouble()
+      screen.mouseScrolled(g, h, f)
+      return
+    }
+
+    if (f.sign != dyWheel.sign) dyWheel = 0.0
+    dyWheel += f % 1
+    val f1 = f.roundToInt()
+    val key = MouseWheelKey.byVDirection(f1) ?: return
+    repeat(abs(f1)) {
+      bm.recalculatePressedKeys(state + key)
+      bm.recalculatePressedKeys(state)
+    }
   }
 
   fun onKey(window: Long, key: Int, scancode: Int, action: Int, mods: Int) {

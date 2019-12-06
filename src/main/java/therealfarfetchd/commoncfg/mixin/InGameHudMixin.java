@@ -30,7 +30,7 @@ public class InGameHudMixin {
         // FIXME test code, remove before release
         final String s = CommonCfg.INSTANCE.getApi().getIm().keys();
         final int width = client.textRenderer.getStringWidth(s);
-        client.textRenderer.draw(s, client.window.getScaledWidth() - 2f - width, 2f, 0xfa5c61);
+        client.textRenderer.draw(s, client.getWindow().getScaledWidth() - 2f - width, 2f, 0xfa5c61);
     }
 
 }

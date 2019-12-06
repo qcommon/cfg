@@ -4,9 +4,9 @@ import net.minecraft.client.options.DoubleOption
 
 interface DoubleOptionExt {
 
-  val interval: Double
+  val step: Double
 
 }
 
-val DoubleOption.interval
-  get() = (this as DoubleOptionExt).interval
+val DoubleOption.step
+  get() = (this as DoubleOptionExt).step

@@ -12,11 +12,11 @@ import therealfarfetchd.commoncfg.client.ext.DoubleOptionExt;
 public class DoubleOptionMixin implements DoubleOptionExt {
 
     @Final @Shadow
-    protected float interval;
+    protected float step;
 
     @Override
-    public double getInterval() {
-        return interval;
+    public double getStep() {
+        return step;
     }
 
 }

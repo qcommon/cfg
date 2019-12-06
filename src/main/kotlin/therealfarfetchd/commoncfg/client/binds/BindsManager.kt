@@ -46,9 +46,17 @@ class BindsManager(val cd: CommandDispatcher) : CommandInitializer, Persistable 
       }
 
       registerSimple("bind") { ctx, args ->
-        val k = KeyCombo.parse(args[0])
-        if (k != null) binds[k] = args[1]
-        else ctx.println("Invalid key combo: ${args[1]}")
+        val k = KeyCombo.parse(args[0]) ?: run {
+          ctx.println("Invalid key combo: ${args[1]}")
+          return@registerSimple
+        }
+        if (args.size < 2) {
+          val cmd = binds[k]
+          if (cmd == null) ctx.println("${k.fmt()} is not bound")
+          else ctx.println("${k.fmt()} = $cmd")
+        } else {
+          binds[k] = args[1]
+        }
       }
 
       registerSimple("unbind") { ctx, args ->
