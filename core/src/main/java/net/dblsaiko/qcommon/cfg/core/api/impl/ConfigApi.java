@@ -3,6 +3,7 @@ package net.dblsaiko.qcommon.cfg.core.api.impl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import net.dblsaiko.qcommon.cfg.core.api.ConsoleOutput;
 import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
@@ -25,15 +26,15 @@ public class ConfigApi implements net.dblsaiko.qcommon.cfg.core.api.ConfigApi.Mu
         output.addListener(logger::info);
     }
 
-    @NotNull
+    @Nullable
     @Override
-    public ConVar getConVar(String name) {
+    public ConVar getConVar(@NotNull String name) {
         return registry.findCvar(name);
     }
 
-    @NotNull
+    @Nullable
     @Override
-    public Command getCommand(String name) {
+    public Command getCommand(@NotNull String name) {
         return registry.findCommand(name);
     }
 

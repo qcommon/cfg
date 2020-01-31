@@ -1,8 +1,7 @@
 package net.dblsaiko.qcommon.cfg.core.api.impl.cvar;
 
-import java.util.OptionalInt;
-
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import net.dblsaiko.qcommon.cfg.core.api.ConsoleOutput;
 import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
@@ -10,13 +9,14 @@ import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
 public abstract class IntConVar implements net.dblsaiko.qcommon.cfg.core.api.cvar.IntConVar {
 
     private final int defaultValue;
-    private final OptionalInt min;
-    private final OptionalInt max;
+    private final Integer min;
+    private final Integer max;
 
-    protected IntConVar(int defaultValue, OptionalInt min, OptionalInt max) {
+    protected IntConVar(int defaultValue, Options options) {
         this.defaultValue = defaultValue;
-        this.min = min;
-        this.max = max;
+        IntConVarOptions opts = ((IntConVarOptions) options);
+        this.min = opts.getMin();
+        this.max = opts.getMax();
     }
 
     @Override
@@ -32,35 +32,35 @@ public abstract class IntConVar implements net.dblsaiko.qcommon.cfg.core.api.cva
     public void printState(@NotNull String name, @NotNull ConsoleOutput output) {
         StringBuilder sb = new StringBuilder();
         sb.append(name).append(" = ").append(this.get()).append(" (default ").append(this.defaultValue);
-        min().ifPresent(min -> sb.append(", min ").append(min));
-        max().ifPresent(min -> sb.append(", max ").append(min));
+        if (min != null) sb.append(", min ").append(min);
+        if (max != null) sb.append(", max ").append(max);
         sb.append(")");
         output.print(sb.toString());
     }
 
     protected int clampValue(int value) {
-        if (min().isPresent()) value = Math.max(value, min().getAsInt());
-        if (max().isPresent()) value = Math.max(value, max().getAsInt());
+        if (min != null) value = Math.max(value, min);
+        if (max != null) value = Math.max(value, max);
         return value;
     }
 
-    @NotNull
+    @Nullable
     @Override
-    public OptionalInt min() {
+    public Integer min() {
         return min;
     }
 
-    @NotNull
+    @Nullable
     @Override
-    public OptionalInt max() {
+    public Integer max() {
         return max;
     }
 
     public static class Owned extends IntConVar {
         private int value;
 
-        public Owned(int defaultValue, OptionalInt min, OptionalInt max) {
-            super(defaultValue, min, max);
+        public Owned(int defaultValue, Options options) {
+            super(defaultValue, options);
             this.value = defaultValue;
         }
 
@@ -79,8 +79,8 @@ public abstract class IntConVar implements net.dblsaiko.qcommon.cfg.core.api.cva
 
         private IntRef ref;
 
-        public Wrapped(IntRef ref, int defaultValue, OptionalInt min, OptionalInt max) {
-            super(defaultValue, min, max);
+        public Wrapped(IntRef ref, int defaultValue, Options options) {
+            super(defaultValue, options);
             this.ref = ref;
         }
 
