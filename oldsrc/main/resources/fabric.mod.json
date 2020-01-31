@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "qcommon-cfg",
+  "version": "1.0.0",
+  "name": "qcommon-cfg",
+  "description": "Configuration, debugging and utility console.",
+  "authors": ["the_real_farfetchd"],
+  "contact": {
+    "homepage": "https://github.com/qcommon/cfg",
+    "sources": "https://github.com/qcommon/cfg"
+  },
+  "license": "MIT",
+  "icon": "assets/common-cfg/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [{ "value": "therealfarfetchd.commoncfg.CommonCfg", "adapter": "kotlin" }],
+    "client": [{ "value": "therealfarfetchd.commoncfg.CommonCfgClient", "adapter": "kotlin" }],
+    "commands": ["therealfarfetchd.commoncfg.CommandInit"],
+    "commands_client": ["therealfarfetchd.commoncfg.CommandInitClient"]
+  },
+  "mixins": [
+    "commoncfg.mixins.json"
+  ],
+  "requires": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*",
+    "fabric-language-kotlin": ">=1.3.30"
+  }
+}

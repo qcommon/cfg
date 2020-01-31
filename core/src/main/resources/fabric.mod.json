@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "qcommon-cfg-core",
+  "version": "2.0.0",
+  "name": "qcommon-cfg-core",
+  "description": "",
+  "authors": ["2xsaiko"],
+  "contact": {
+    "homepage": "https://github.com/qcommon/cfg",
+    "sources": "https://github.com/qcommon/cfg"
+  },
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["net.dblsaiko.qcommon.cfg.core.Main"],
+    "client": ["net.dblsaiko.qcommon.cfg.core.MainClient"],
+    "server": ["net.dblsaiko.qcommon.cfg.core.MainServer"]
+  },
+  "mixins": [],
+  "depends": {
+    "fabricloader": ">=0.4.0",
+    "fabric": "*"
+  }
+}

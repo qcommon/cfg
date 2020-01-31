@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "qcommon-cfg",
+  "id": "qcommon-cfg-core-kotlin",
   "version": "2.0.0",
-  "name": "qcommon-cfg",
+  "name": "qcommon-cfg-core-kotlin",
   "description": "",
   "authors": ["2xsaiko"],
   "contact": {
@@ -12,6 +12,8 @@
   "license": "MIT",
   "environment": "*",
   "depends": {
-    "fabricloader": ">=0.4.0"
+    "fabricloader": ">=0.4.0",
+    "fabric": "*",
+    "qcommon-cfg-core": ">=2.0.0"
   }
 }

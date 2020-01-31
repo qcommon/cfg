@@ -8,3 +8,10 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
+include 'core'
+include 'core-kotlin'
+include 'base'
+include 'sync'
+include 'ui'
+include 'keys'
