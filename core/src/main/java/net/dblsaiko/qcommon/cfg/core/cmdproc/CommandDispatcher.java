@@ -65,6 +65,7 @@ public class CommandDispatcher implements CommandScheduler {
     private NextAction exec(String command, String[] args, ExecSource source) {
         switch (command) {
             case "alias":
+                if (source == ExecSource.REMOTE) break;
                 if (args.length > 1) {
                     aliases.put(args[0], args[1]);
                 } else if (args.length > 0) {
@@ -77,6 +78,7 @@ public class CommandDispatcher implements CommandScheduler {
                 }
                 break;
             case "unalias":
+                if (source == ExecSource.REMOTE) break;
                 if (args.length > 0) {
                     aliases.remove(args[0]);
                 }
@@ -86,16 +88,21 @@ public class CommandDispatcher implements CommandScheduler {
             default:
                 ConVar cvar = commandRegistry.findCvar(command);
                 if (cvar != null) {
-                    if (args.length > 0) {
-                        // TODO disallow setting server-side cvars on client
-                        cvar.setFromString(args);
-                    } else {
-                        cvar.printState(command, output);
+                    // TODO disallow setting server-side cvars on client
+                    // TODO allow the server to sync cvars
+                    if (source != ExecSource.REMOTE) {
+                        if (args.length > 0) {
+                            cvar.setFromString(args);
+                        } else {
+                            cvar.printState(command, output);
+                        }
                     }
                 } else {
                     Command cmd = commandRegistry.findCommand(command);
                     if (cmd != null) {
-                        cmd.exec(args, source, output);
+                        if (source != ExecSource.REMOTE || cmd.allowRemoteExec()) {
+                            cmd.exec(args, source, output);
+                        }
                     } else {
                         output.printf("Command not found: %s", command);
                     }

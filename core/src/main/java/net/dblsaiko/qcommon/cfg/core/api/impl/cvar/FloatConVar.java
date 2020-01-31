@@ -1,7 +1,5 @@
 package net.dblsaiko.qcommon.cfg.core.api.impl.cvar;
 
-import java.util.Optional;
-
 import org.jetbrains.annotations.NotNull;
 
 import net.dblsaiko.qcommon.cfg.core.api.ConsoleOutput;
@@ -50,20 +48,20 @@ public abstract class FloatConVar implements net.dblsaiko.qcommon.cfg.core.api.c
 
     @NotNull
     @Override
-    public Optional<Float> min() {
-        return Optional.ofNullable(min);
+    public Float min() {
+        return min;
     }
 
     @NotNull
     @Override
-    public Optional<Float> max() {
-        return Optional.ofNullable(max);
+    public Float max() {
+        return max;
     }
 
     @NotNull
     @Override
-    public Optional<Float> step() {
-        return Optional.ofNullable(step);
+    public Float step() {
+        return step;
     }
 
     public static class Owned extends FloatConVar {
