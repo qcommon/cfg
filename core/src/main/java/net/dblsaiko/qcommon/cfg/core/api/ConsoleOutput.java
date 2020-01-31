@@ -1,7 +1,7 @@
 package net.dblsaiko.qcommon.cfg.core.api;
 
-import jdk.internal.jline.internal.Nullable;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public interface ConsoleOutput {
 
