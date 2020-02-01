@@ -2,7 +2,7 @@ package net.dblsaiko.qcommon.cfg.core.api.impl.cvar;
 
 import org.jetbrains.annotations.NotNull;
 
-import net.dblsaiko.qcommon.cfg.core.api.ConsoleOutput;
+import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.ref.Ref;
 
 public abstract class StringConVar implements net.dblsaiko.qcommon.cfg.core.api.cvar.StringConVar {
@@ -14,12 +14,18 @@ public abstract class StringConVar implements net.dblsaiko.qcommon.cfg.core.api.
     }
 
     @Override
-    public void setFromString(@NotNull String[] args) {
+    public void setFromStrings(@NotNull String[] args) {
         set(args[0]);
     }
 
+    @NotNull
     @Override
-    public void printState(@NotNull String name, @NotNull ConsoleOutput output) {
+    public String[] getAsStrings() {
+        return new String[]{get()};
+    }
+
+    @Override
+    public void printState(@NotNull String name, @NotNull LinePrinter output) {
         output.printf("%s = '%s' (default '%s')", name, this.get(), this.defaultValue);
     }
 

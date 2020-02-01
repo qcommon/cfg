@@ -86,7 +86,7 @@ dependencies {
 
     afterEvaluate {
         subprojects.each {
-            compile project(path: ":${it.name}", configuration: "dev")
+            compile it
             include project("${it.name}:")
         }
     }

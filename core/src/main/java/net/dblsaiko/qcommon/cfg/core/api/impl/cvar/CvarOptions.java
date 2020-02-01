@@ -1,6 +1,7 @@
 package net.dblsaiko.qcommon.cfg.core.api.impl.cvar;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class CvarOptions implements net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions {
 
@@ -20,4 +21,14 @@ public class CvarOptions implements net.dblsaiko.qcommon.cfg.core.api.cvar.CvarO
         savedTo = file;
         return this;
     }
+
+    public boolean isSync() {
+        return sync;
+    }
+
+    @Nullable
+    public String getSavedTo() {
+        return savedTo;
+    }
+
 }

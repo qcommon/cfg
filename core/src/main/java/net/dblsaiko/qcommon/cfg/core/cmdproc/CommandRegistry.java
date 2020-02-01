@@ -1,6 +1,5 @@
 package net.dblsaiko.qcommon.cfg.core.cmdproc;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -31,12 +30,12 @@ public class CommandRegistry {
         return cvars.get(name);
     }
 
-    public Collection<Command> getCommands() {
-        return Collections.unmodifiableCollection(commands.values());
+    public Map<String, Command> getCommands() {
+        return Collections.unmodifiableMap(commands);
     }
 
-    public Collection<ConVar> getCvars() {
-        return Collections.unmodifiableCollection(cvars.values());
+    public Map<String, ConVar> getCvars() {
+        return Collections.unmodifiableMap(cvars);
     }
 
 }

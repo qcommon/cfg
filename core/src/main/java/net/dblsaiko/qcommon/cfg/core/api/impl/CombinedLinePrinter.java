@@ -5,13 +5,13 @@ import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
 
-import net.dblsaiko.qcommon.cfg.core.api.ConsoleOutput;
+import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 
-public class CombinedConsoleOutput implements ConsoleOutput {
+public class CombinedLinePrinter implements LinePrinter {
 
-    private List<ConsoleOutput> listeners = new ArrayList<>();
+    private List<LinePrinter> listeners = new ArrayList<>();
 
-    public void addListener(ConsoleOutput output) {
+    public void addListener(LinePrinter output) {
         listeners.add(output);
     }
 

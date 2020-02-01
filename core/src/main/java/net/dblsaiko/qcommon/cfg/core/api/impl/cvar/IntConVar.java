@@ -3,7 +3,7 @@ package net.dblsaiko.qcommon.cfg.core.api.impl.cvar;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.dblsaiko.qcommon.cfg.core.api.ConsoleOutput;
+import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
 
 public abstract class IntConVar implements net.dblsaiko.qcommon.cfg.core.api.cvar.IntConVar {
@@ -20,7 +20,7 @@ public abstract class IntConVar implements net.dblsaiko.qcommon.cfg.core.api.cva
     }
 
     @Override
-    public void setFromString(@NotNull String[] args) {
+    public void setFromStrings(@NotNull String[] args) {
         try {
             set(Integer.parseInt(args[0]));
         } catch (NumberFormatException e) {
@@ -28,8 +28,14 @@ public abstract class IntConVar implements net.dblsaiko.qcommon.cfg.core.api.cva
         }
     }
 
+    @NotNull
     @Override
-    public void printState(@NotNull String name, @NotNull ConsoleOutput output) {
+    public String[] getAsStrings() {
+        return new String[]{Integer.toString(get())};
+    }
+
+    @Override
+    public void printState(@NotNull String name, @NotNull LinePrinter output) {
         StringBuilder sb = new StringBuilder();
         sb.append(name).append(" = ").append(this.get()).append(" (default ").append(this.defaultValue);
         if (min != null) sb.append(", min ").append(min);

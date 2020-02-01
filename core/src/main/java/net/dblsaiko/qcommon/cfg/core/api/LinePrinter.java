@@ -3,34 +3,44 @@ package net.dblsaiko.qcommon.cfg.core.api;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
+
 /**
- *
+ * A line based printer, used for console output or in {@link PersistenceListener}.
  */
-public interface ConsoleOutput {
+public interface LinePrinter {
 
     /**
-     * Print a new message to the log. Adding a newline is not necessary.
+     * Print a new line. If this string contains newlines, act as if print()
+     * was called multiple times, once for each line.
      *
      * @param s the string to print
      */
     void print(@NotNull String s);
 
     /**
-     * Print an object to the log, or <code>"null"</code> if the argument is null
+     * Print an empty new line.
+     */
+    default void print() {
+        print("");
+    }
+
+    /**
+     * Print an object, or <code>"null"</code> if the argument is null
      *
      * @param o the object to print
-     * @see ConsoleOutput#print(String)
+     * @see LinePrinter#print(String)
      */
     default void print(@Nullable Object o) {
         print(o != null ? o.toString() : "null");
     }
 
     /**
-     * Print a formatted string to the output.
+     * Print a formatted string.
      *
      * @param format the format
      * @param args   the format arguments
-     * @see ConsoleOutput#print(String)
+     * @see LinePrinter#print(String)
      * @see String#format(String, Object...)
      */
     default void printf(String format, Object... args) {

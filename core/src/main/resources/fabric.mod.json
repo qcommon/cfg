@@ -16,9 +16,13 @@
     "client": ["net.dblsaiko.qcommon.cfg.core.MainClient"],
     "server": ["net.dblsaiko.qcommon.cfg.core.MainServer"]
   },
-  "mixins": [],
+  "mixins": ["cfg-core.mixins.json"],
   "depends": {
     "fabricloader": ">=0.4.0",
     "fabric": "*"
+  },
+  "custom": {
+    "modmenu:api": true,
+    "modmenu:parent": "qcommon-cfg"
   }
 }

@@ -2,7 +2,7 @@ package net.dblsaiko.qcommon.cfg.core.api.cvar;
 
 import org.jetbrains.annotations.NotNull;
 
-import net.dblsaiko.qcommon.cfg.core.api.ConsoleOutput;
+import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 
 /**
  * A console variable (convar/cvar) which stores a modifiable value for configuration.
@@ -18,7 +18,16 @@ public interface ConVar {
      *
      * @param args the arguments
      */
-    void setFromString(@NotNull String[] args);
+    void setFromStrings(@NotNull String[] args);
+
+    /**
+     * Gets this ConVar's value as an array of strings for serialization.
+     *
+     * @return this cvar's value as a String[]
+     * @see ConVar#setFromStrings(String[])
+     */
+    @NotNull
+    String[] getAsStrings();
 
     /**
      * Prints this ConVar's state to the output
@@ -26,6 +35,6 @@ public interface ConVar {
      * @param name   the name of the cvar
      * @param output the output to print to
      */
-    void printState(@NotNull String name, @NotNull ConsoleOutput output);
+    void printState(@NotNull String name, @NotNull LinePrinter output);
 
 }

@@ -22,7 +22,7 @@ public enum ExecSource {
      * The script has been executed from the server, such as for synchronizing
      * cvars.
      * Since this is effectively arbitrary code execution, this command source
-     * has an extra security check that is disabled by default, so that every
+     * has an extra security check that prevents this by default, so that every
      * command doesn't have to implement that check itself.
      *
      * @see Command#allowRemoteExec()

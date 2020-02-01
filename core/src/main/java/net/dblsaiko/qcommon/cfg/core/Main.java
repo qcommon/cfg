@@ -3,7 +3,6 @@ package net.dblsaiko.qcommon.cfg.core;
 import net.fabricmc.api.ModInitializer;
 
 import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
-import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.FloatConVar;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.IntConVar;
@@ -23,13 +22,9 @@ public class Main implements ModInitializer {
         int value = ownedValue.get();
         ownedValue.set(420);
 
-        api.addConVar("float_var", FloatConVar.owned(0.25f, FloatConVar.Options.create().min(0.0f).max(10.0f).step(0.1f)));
+        api.addConVar("float_var", FloatConVar.owned(0.25f, FloatConVar.Options.create().min(0.0f).max(10.0f).step(0.1f)), opts);
 
         api.addConVar("string_var", StringConVar.owned(""), opts);
-
-        api.exec("string_var", ExecSource.CONSOLE);
-        api.exec("string_var heyo!", ExecSource.CONSOLE);
-        api.exec("string_var", ExecSource.CONSOLE);
     }
 
 }

@@ -2,7 +2,7 @@ package net.dblsaiko.qcommon.cfg.core.api.impl.cvar;
 
 import org.jetbrains.annotations.NotNull;
 
-import net.dblsaiko.qcommon.cfg.core.api.ConsoleOutput;
+import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.ref.FloatRef;
 
 public abstract class FloatConVar implements net.dblsaiko.qcommon.cfg.core.api.cvar.FloatConVar {
@@ -21,7 +21,7 @@ public abstract class FloatConVar implements net.dblsaiko.qcommon.cfg.core.api.c
     }
 
     @Override
-    public void setFromString(@NotNull String[] args) {
+    public void setFromStrings(@NotNull String[] args) {
         try {
             set(Float.parseFloat(args[0]));
         } catch (NumberFormatException e) {
@@ -29,8 +29,14 @@ public abstract class FloatConVar implements net.dblsaiko.qcommon.cfg.core.api.c
         }
     }
 
+    @NotNull
     @Override
-    public void printState(@NotNull String name, @NotNull ConsoleOutput output) {
+    public String[] getAsStrings() {
+        return new String[]{Float.toString(get())};
+    }
+
+    @Override
+    public void printState(@NotNull String name, @NotNull LinePrinter output) {
         StringBuilder sb = new StringBuilder();
         sb.append(name).append(" = ").append(this.get()).append(" (default ").append(this.defaultValue);
         if (min != null) sb.append(", min ").append(min);

@@ -2,8 +2,8 @@ package net.dblsaiko.qcommon.cfg.core.api.cmd;
 
 import org.jetbrains.annotations.NotNull;
 
-import net.dblsaiko.qcommon.cfg.core.api.ConsoleOutput;
 import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
+import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 
 /**
  * An executable console command.
@@ -17,7 +17,7 @@ public interface Command {
      * @param src    the ExecSource this command was executed from.
      * @param output the output wrapper
      */
-    void exec(@NotNull String[] args, @NotNull ExecSource src, @NotNull ConsoleOutput output);
+    void exec(@NotNull String[] args, @NotNull ExecSource src, @NotNull LinePrinter output, @NotNull ControlFlow cf);
 
     /**
      * Whether this command may be executed remotely by the server. Since this

@@ -10,7 +10,7 @@ pluginManagement {
 }
 
 include 'core'
-include 'core-kotlin'
+// include 'core-kotlin'
 include 'base'
 include 'sync'
 include 'ui'

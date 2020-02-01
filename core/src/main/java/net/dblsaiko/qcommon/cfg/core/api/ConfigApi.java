@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions;
+import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
 
 /**
  * The central API for qcommon-cfg.
@@ -59,6 +60,15 @@ public interface ConfigApi {
     void exec(@NotNull String script, @NotNull ExecSource source);
 
     /**
+     * Escapes a string so that when parsed, it evaluates to the original string.
+     *
+     * @param s the string to escape
+     * @return the escaped string
+     */
+    @NotNull
+    String escape(@NotNull String s);
+
+    /**
      * Mutable extension of {@link ConfigApi}, for registration.
      */
     interface Mutable extends ConfigApi {
@@ -100,11 +110,19 @@ public interface ConfigApi {
         <T extends Command> T addCommand(@NotNull String name, @NotNull T command);
 
         /**
-         * Register a new {@link ConsoleOutput} that all commands print their output to.
+         * Register a {@link LinePrinter} that all commands print their output
+         * to, in addition to the currently registered ones.
          *
-         * @param output the {@link ConsoleOutput} to register
+         * @param output the {@link LinePrinter} to register
          */
-        void registerOutput(@NotNull ConsoleOutput output);
+        void registerOutput(@NotNull LinePrinter output);
+
+        /**
+         * Register a {@link PersistenceListener}.
+         *
+         * @param listener the {@link PersistenceListener} to register
+         */
+        void registerPersistenceListener(@NotNull PersistenceListener listener);
 
     }
 

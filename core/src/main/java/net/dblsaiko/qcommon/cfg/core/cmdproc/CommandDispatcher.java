@@ -6,12 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import net.dblsaiko.qcommon.cfg.core.api.ConsoleOutput;
 import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
+import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
+import net.dblsaiko.qcommon.cfg.core.api.cmd.ControlFlow;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 
 public class CommandDispatcher implements CommandScheduler {
+
+    private static final String[] dummy = new String[0];
 
     private final Object lock = new Object();
 
@@ -20,9 +23,9 @@ public class CommandDispatcher implements CommandScheduler {
     private Map<String, String> aliases = new HashMap<>();
 
     private final CommandRegistry commandRegistry;
-    private final ConsoleOutput output;
+    private final LinePrinter output;
 
-    public CommandDispatcher(CommandRegistry commandRegistry, ConsoleOutput output) {
+    public CommandDispatcher(CommandRegistry commandRegistry, LinePrinter output) {
         this.commandRegistry = commandRegistry;
         this.output = output;
     }
@@ -49,20 +52,41 @@ public class CommandDispatcher implements CommandScheduler {
         }
     }
 
-    private static final String[] dummy = new String[0];
+    public void resumeUntilEmpty() {
+        List<ExecState> scheduled;
+        synchronized (lock) {
+            scheduled = new ArrayList<>(this.scheduled);
+            this.scheduled.clear();
+        }
+        while (!scheduled.isEmpty()) {
+            for (ExecState execState : scheduled) {
+                step(execState);
+            }
+            scheduled.removeIf(el -> !el.hasNext());
+        }
+    }
 
     private void step(ExecState script) {
         Optional<List<String>> next;
         while ((next = script.next()).isPresent()) {
             List<String> cmd = next.get();
             if (cmd.size() > 0) {
-                NextAction act = exec(cmd.get(0), cmd.subList(1, cmd.size()).toArray(dummy), script.getSource());
-                if (act == NextAction.SUSPEND) return;
+                ControlFlowImpl cf = new ControlFlowImpl();
+                exec(cmd.get(0), cmd.subList(1, cmd.size()).toArray(dummy), script.getSource(), cf);
+                switch (cf.getType()) {
+                    case PROCEED:
+                        break;
+                    case SUSPEND:
+                        return;
+                    case ENTER_SUBROUTINE:
+                        script.enterSubroutine(tokenize(cf.getScriptSource()));
+                        break;
+                }
             }
         }
     }
 
-    private NextAction exec(String command, String[] args, ExecSource source) {
+    private void exec(String command, String[] args, ExecSource source, ControlFlow cf) {
         switch (command) {
             case "alias":
                 if (source == ExecSource.REMOTE) break;
@@ -84,7 +108,8 @@ public class CommandDispatcher implements CommandScheduler {
                 }
                 break;
             case "wait":
-                return NextAction.SUSPEND;
+                cf.suspend();
+                break;
             default:
                 ConVar cvar = commandRegistry.findCvar(command);
                 if (cvar != null) {
@@ -92,7 +117,7 @@ public class CommandDispatcher implements CommandScheduler {
                     // TODO allow the server to sync cvars
                     if (source != ExecSource.REMOTE) {
                         if (args.length > 0) {
-                            cvar.setFromString(args);
+                            cvar.setFromStrings(args);
                         } else {
                             cvar.printState(command, output);
                         }
@@ -101,14 +126,13 @@ public class CommandDispatcher implements CommandScheduler {
                     Command cmd = commandRegistry.findCommand(command);
                     if (cmd != null) {
                         if (source != ExecSource.REMOTE || cmd.allowRemoteExec()) {
-                            cmd.exec(args, source, output);
+                            cmd.exec(args, source, output, cf);
                         }
                     } else {
                         output.printf("Command not found: %s", command);
                     }
                 }
         }
-        return NextAction.CONTINUE;
     }
 
     private static List<List<String>> tokenize(String source) {
@@ -160,5 +184,4 @@ public class CommandDispatcher implements CommandScheduler {
 
         return commands;
     }
-
 }

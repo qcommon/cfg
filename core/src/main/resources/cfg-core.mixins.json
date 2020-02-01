@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "net.dblsaiko.qcommon.cfg.core.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MinecraftClientMixin"
+  ],
+  "server": [
+    "MinecraftDedicatedServerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
