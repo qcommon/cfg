@@ -3,7 +3,7 @@
   "id": "qcommon-cfg-sync",
   "version": "2.0.0",
   "name": "qcommon-cfg-sync",
-  "description": "",
+  "description": "Server -> client configuration synchronization",
   "authors": ["2xsaiko"],
   "contact": {
     "homepage": "https://github.com/qcommon/cfg",

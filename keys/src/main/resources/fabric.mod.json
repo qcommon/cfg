@@ -3,7 +3,7 @@
   "id": "qcommon-cfg-keys",
   "version": "2.0.0",
   "name": "qcommon-cfg-keys",
-  "description": "",
+  "description": "Extended keybinding functionality",
   "authors": ["2xsaiko"],
   "contact": {
     "homepage": "https://github.com/qcommon/cfg",
