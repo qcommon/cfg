@@ -1,12 +1,12 @@
 package net.dblsaiko.qcommon.cfg.core.api;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions;
 import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
+import net.dblsaiko.qcommon.cfg.core.api.sync.SyncListener;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * The central API for qcommon-cfg.
@@ -123,6 +123,13 @@ public interface ConfigApi {
          * @param listener the {@link PersistenceListener} to register
          */
         void registerPersistenceListener(@NotNull PersistenceListener listener);
+
+        /**
+         * Register a {@link SyncListener}.
+         *
+         * @param handler the sync listener to register
+         */
+        void registerSyncListener(@NotNull SyncListener listener);
 
     }
 

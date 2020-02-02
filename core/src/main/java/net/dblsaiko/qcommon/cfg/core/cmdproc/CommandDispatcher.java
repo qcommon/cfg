@@ -1,16 +1,18 @@
 package net.dblsaiko.qcommon.cfg.core.cmdproc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.ControlFlow;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
+import net.dblsaiko.qcommon.cfg.core.api.impl.CvarSyncManager;
+import net.dblsaiko.qcommon.cfg.core.net.CvarUpdatePacket;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.server.PlayerStream;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.server.dedicated.MinecraftDedicatedServer;
+
+import java.util.*;
 
 public class CommandDispatcher implements CommandScheduler {
 
@@ -23,10 +25,12 @@ public class CommandDispatcher implements CommandScheduler {
     private Map<String, String> aliases = new HashMap<>();
 
     private final CommandRegistry commandRegistry;
+    private final CvarSyncManager cvarSyncManager;
     private final LinePrinter output;
 
-    public CommandDispatcher(CommandRegistry commandRegistry, LinePrinter output) {
+    public CommandDispatcher(CommandRegistry commandRegistry, CvarSyncManager cvarSyncManager, LinePrinter output) {
         this.commandRegistry = commandRegistry;
+        this.cvarSyncManager = cvarSyncManager;
         this.output = output;
     }
 
@@ -89,7 +93,6 @@ public class CommandDispatcher implements CommandScheduler {
     private void exec(String command, String[] args, ExecSource source, ControlFlow cf) {
         switch (command) {
             case "alias":
-                if (source == ExecSource.REMOTE) break;
                 if (args.length > 1) {
                     aliases.put(args[0], args[1]);
                 } else if (args.length > 0) {
@@ -102,7 +105,6 @@ public class CommandDispatcher implements CommandScheduler {
                 }
                 break;
             case "unalias":
-                if (source == ExecSource.REMOTE) break;
                 if (args.length > 0) {
                     aliases.remove(args[0]);
                 }
@@ -115,19 +117,25 @@ public class CommandDispatcher implements CommandScheduler {
                 if (cvar != null) {
                     // TODO disallow setting server-side cvars on client
                     // TODO allow the server to sync cvars
-                    if (source != ExecSource.REMOTE) {
-                        if (args.length > 0) {
+                    boolean synced = cvarSyncManager.isActive() && cvarSyncManager.isTracked(command);
+                    if (args.length > 0) {
+                        if (!synced) {
                             cvar.setFromStrings(args);
                         } else {
-                            cvar.printState(command, output);
+                            output.print("cvar is controlled by server");
                         }
+                        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
+                            CvarUpdatePacket packet = cvarSyncManager.getUpdatePacketFor(command);
+                            PlayerStream.all((MinecraftDedicatedServer) FabricLoader.getInstance().getGameInstance())
+                                .forEach(packet::sendTo);
+                        }
+                    } else {
+                        cvar.printState(command, output);
                     }
                 } else {
                     Command cmd = commandRegistry.findCommand(command);
                     if (cmd != null) {
-                        if (source != ExecSource.REMOTE || cmd.allowRemoteExec()) {
-                            cmd.exec(args, source, output, cf);
-                        }
+                        cmd.exec(args, source, output, cf);
                     } else {
                         output.printf("Command not found: %s", command);
                     }

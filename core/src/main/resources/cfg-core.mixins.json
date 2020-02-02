@@ -2,8 +2,12 @@
   "required": true,
   "package": "net.dblsaiko.qcommon.cfg.core.mixin",
   "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "PlayerManagerMixin"
+  ],
   "client": [
-    "MinecraftClientMixin"
+    "MinecraftClientMixin",
+    "ClientPlayerEntityMixin"
   ],
   "server": [
     "MinecraftDedicatedServerMixin"

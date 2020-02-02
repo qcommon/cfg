@@ -1,23 +1,30 @@
 package net.dblsaiko.qcommon.cfg.core.api.impl;
 
-import net.fabricmc.loader.api.FabricLoader;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 import net.dblsaiko.qcommon.cfg.core.api.impl.cvar.CvarOptions;
 import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
+import net.dblsaiko.qcommon.cfg.core.api.sync.SyncListener;
 import net.dblsaiko.qcommon.cfg.core.cmdproc.CommandDispatcher;
 import net.dblsaiko.qcommon.cfg.core.cmdproc.CommandRegistry;
 import net.dblsaiko.qcommon.cfg.core.persistence.PersistenceManager;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.server.network.ServerPlayerEntity;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ConfigApi implements net.dblsaiko.qcommon.cfg.core.api.ConfigApi.Mutable {
+
+    public static final String MOD_ID = "qcommon-cfg";
+    public static final Logger logger = LogManager.getLogger(MOD_ID);
 
     /**
      * The internal {@link ConfigApi} instance.
@@ -30,14 +37,16 @@ public class ConfigApi implements net.dblsaiko.qcommon.cfg.core.api.ConfigApi.Mu
 
     private final CombinedLinePrinter output = new CombinedLinePrinter();
     private final CommandRegistry registry = new CommandRegistry();
-    private final CommandDispatcher dispatcher = new CommandDispatcher(registry, output);
+    private final CvarSyncManager cvarSyncManager = new CvarSyncManager(registry);
+    private final CommandDispatcher dispatcher = new CommandDispatcher(registry, cvarSyncManager, output);
     private final CvarPersistenceListener cvarPersistenceListener = new CvarPersistenceListener();
     private final PersistenceManager persistenceManager = new PersistenceManager(dispatcher);
+    private final Set<SyncListener> syncListeners = new HashSet<>();
 
     private ConfigApi() {
-        Logger logger = LogManager.getLogger("qcommon-cfg");
         output.addListener(logger::info);
         persistenceManager.addListener(cvarPersistenceListener);
+        registerSyncListener(cvarSyncManager);
         registry.addCommand("save", (args, source, printer, cf) -> persistenceManager.save());
         registry.addCommand("echo", (args, source, printer, cf) -> printer.print(String.join(" ", args)));
         registry.addCommand("exec", new ExecCommand(FabricLoader.getInstance().getConfigDirectory().toPath()));
@@ -65,10 +74,9 @@ public class ConfigApi implements net.dblsaiko.qcommon.cfg.core.api.ConfigApi.Mu
     public String escape(@NotNull String s) {
         String escaped = s
             .replace("\\", "\\\\")
-            .replace("\"", "\\\"")
-            .replace(";", "\\;");
+            .replace("\"", "\\\"");
 
-        if (s.contains(" ")) {
+        if (s.contains(" ") || s.contains(";")) {
             return String.format("\"%s\"", escaped);
         } else {
             return escaped;
@@ -86,7 +94,7 @@ public class ConfigApi implements net.dblsaiko.qcommon.cfg.core.api.ConfigApi.Mu
         }
 
         if (opts.isSync()) {
-            LogManager.getLogger("qcommon-cfg").warn("warning: registering cvar '{}': sync is not supported yet", name);
+            cvarSyncManager.trackCvar(name);
         }
 
         return cvar;
@@ -108,6 +116,11 @@ public class ConfigApi implements net.dblsaiko.qcommon.cfg.core.api.ConfigApi.Mu
         persistenceManager.addListener(listener);
     }
 
+    @Override
+    public void registerSyncListener(@NotNull SyncListener listener) {
+        syncListeners.add(listener);
+    }
+
     public void resumeScripts() {
         dispatcher.resume();
     }
@@ -124,6 +137,11 @@ public class ConfigApi implements net.dblsaiko.qcommon.cfg.core.api.ConfigApi.Mu
         persistenceManager.save();
     }
 
+    public void onPlayerConnect(ServerPlayerEntity player) {
+        cvarSyncManager.getFullUpdatePacket().sendTo(player);
+        syncListeners.forEach($ -> $.updateAll(Collections.singleton(player)));
+    }
+
     public void onLoad() {
         loadConfig();
         resumeUntilEmpty();
@@ -131,4 +149,9 @@ public class ConfigApi implements net.dblsaiko.qcommon.cfg.core.api.ConfigApi.Mu
         resumeUntilEmpty();
         persistenceManager.save();
     }
+
+    public boolean allowRemoteSetCvar(String key) {
+        return cvarSyncManager.isActive() && cvarSyncManager.isTracked(key);
+    }
+
 }

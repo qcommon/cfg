@@ -1,9 +1,8 @@
 package net.dblsaiko.qcommon.cfg.core.api.impl.cvar;
 
-import org.jetbrains.annotations.NotNull;
-
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.ref.FloatRef;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class FloatConVar implements net.dblsaiko.qcommon.cfg.core.api.cvar.FloatConVar {
 
@@ -41,14 +40,15 @@ public abstract class FloatConVar implements net.dblsaiko.qcommon.cfg.core.api.c
         sb.append(name).append(" = ").append(this.get()).append(" (default ").append(this.defaultValue);
         if (min != null) sb.append(", min ").append(min);
         if (max != null) sb.append(", max ").append(max);
+        if (step != null) sb.append(", step ").append(step);
         sb.append(")");
         output.print(sb.toString());
     }
 
     protected float clampValue(float value) {
-        if (step != null) value = ((int) value / step) * step;
+        if (step != null) value = (int) (value / step) * step;
         if (min != null) value = Math.max(value, min);
-        if (max != null) value = Math.max(value, max);
+        if (max != null) value = Math.min(value, max);
         return value;
     }
 

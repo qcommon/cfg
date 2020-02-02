@@ -1,0 +1,3 @@
+{
+  "qcommon-cfg.cvar_changed": "Server cvar %1$s changed to %3$s (was %2$s)"
+}

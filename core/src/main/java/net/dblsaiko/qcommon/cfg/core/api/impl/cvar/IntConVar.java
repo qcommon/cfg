@@ -1,10 +1,9 @@
 package net.dblsaiko.qcommon.cfg.core.api.impl.cvar;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class IntConVar implements net.dblsaiko.qcommon.cfg.core.api.cvar.IntConVar {
 
@@ -46,7 +45,7 @@ public abstract class IntConVar implements net.dblsaiko.qcommon.cfg.core.api.cva
 
     protected int clampValue(int value) {
         if (min != null) value = Math.max(value, min);
-        if (max != null) value = Math.max(value, max);
+        if (max != null) value = Math.min(value, max);
         return value;
     }
 
