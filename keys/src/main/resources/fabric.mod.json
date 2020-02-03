@@ -4,7 +4,9 @@
   "version": "2.0.0",
   "name": "qcommon-cfg-keys",
   "description": "Extended keybinding functionality",
-  "authors": ["2xsaiko"],
+  "authors": [
+    "2xsaiko"
+  ],
   "contact": {
     "homepage": "https://github.com/qcommon/cfg",
     "sources": "https://github.com/qcommon/cfg"
@@ -12,13 +14,16 @@
   "license": "MIT",
   "environment": "*",
   "entrypoints": {
-    "main": ["net.dblsaiko.qcommon.cfg.keys.Main"]
+    "main": [
+      "net.dblsaiko.qcommon.cfg.keys.Main"
+    ]
   },
   "mixins": [],
   "depends": {
     "fabricloader": ">=0.4.0",
     "fabric": "*",
-    "qcommon-cfg-core": ">=2.0.0"
+    "qcommon-cfg-core": ">=2.0.0",
+    "qcommon-cfg-ui": ">=2.0.0"
   },
   "custom": {
     "modmenu:api": true,

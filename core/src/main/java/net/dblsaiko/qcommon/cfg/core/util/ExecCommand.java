@@ -1,16 +1,15 @@
-package net.dblsaiko.qcommon.cfg.core.api.impl;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
-
-import org.jetbrains.annotations.NotNull;
+package net.dblsaiko.qcommon.cfg.core.util;
 
 import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.ControlFlow;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 
 public class ExecCommand implements Command {
 

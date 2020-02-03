@@ -39,7 +39,7 @@ public interface CvarOptions {
      */
     @NotNull
     static CvarOptions create() {
-        return new net.dblsaiko.qcommon.cfg.core.api.impl.cvar.CvarOptions();
+        return new net.dblsaiko.qcommon.cfg.core.cvar.CvarOptions();
     }
 
 }

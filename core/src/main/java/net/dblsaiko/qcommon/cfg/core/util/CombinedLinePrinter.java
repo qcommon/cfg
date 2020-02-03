@@ -1,11 +1,10 @@
-package net.dblsaiko.qcommon.cfg.core.api.impl;
+package net.dblsaiko.qcommon.cfg.core.util;
+
+import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jetbrains.annotations.NotNull;
-
-import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 
 public class CombinedLinePrinter implements LinePrinter {
 

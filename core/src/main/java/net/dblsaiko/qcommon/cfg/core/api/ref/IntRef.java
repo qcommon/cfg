@@ -1,14 +1,13 @@
 package net.dblsaiko.qcommon.cfg.core.api.ref;
 
-import java.lang.reflect.Field;
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
-
+import net.dblsaiko.qcommon.cfg.core.ref.CustomIntRef;
+import net.dblsaiko.qcommon.cfg.core.ref.FieldIntRef;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.dblsaiko.qcommon.cfg.core.api.impl.ref.CustomIntRef;
-import net.dblsaiko.qcommon.cfg.core.api.impl.ref.FieldIntRef;
+import java.lang.reflect.Field;
+import java.util.function.IntConsumer;
+import java.util.function.IntSupplier;
 
 /**
  * A mutable reference to an int.

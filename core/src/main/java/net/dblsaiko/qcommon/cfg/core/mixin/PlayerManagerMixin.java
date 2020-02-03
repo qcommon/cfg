@@ -1,6 +1,6 @@
 package net.dblsaiko.qcommon.cfg.core.mixin;
 
-import net.dblsaiko.qcommon.cfg.core.api.impl.ConfigApi;
+import net.dblsaiko.qcommon.cfg.core.ConfigApi;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;

@@ -1,8 +1,8 @@
 package net.dblsaiko.qcommon.cfg.core.net;
 
 import io.netty.buffer.Unpooled;
+import net.dblsaiko.qcommon.cfg.core.ConfigApi;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
-import net.dblsaiko.qcommon.cfg.core.api.impl.ConfigApi;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.fabricmc.fabric.api.network.PacketContext;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;

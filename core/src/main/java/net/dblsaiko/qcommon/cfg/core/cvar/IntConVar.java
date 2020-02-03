@@ -1,37 +1,42 @@
-package net.dblsaiko.qcommon.cfg.core.api.impl.cvar;
+package net.dblsaiko.qcommon.cfg.core.cvar;
 
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
-import net.dblsaiko.qcommon.cfg.core.api.ref.FloatRef;
+import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public abstract class FloatConVar implements net.dblsaiko.qcommon.cfg.core.api.cvar.FloatConVar {
+import static net.dblsaiko.qcommon.cfg.core.util.ArrayUtil.arrayOf;
 
-    private final float defaultValue;
-    private final Float min;
-    private final Float max;
-    private final Float step;
+public abstract class IntConVar implements net.dblsaiko.qcommon.cfg.core.api.cvar.IntConVar {
 
-    protected FloatConVar(float defaultValue, FloatConVar.Options options) {
+    private final int defaultValue;
+    private final Integer min;
+    private final Integer max;
+
+    protected IntConVar(int defaultValue, Options options) {
         this.defaultValue = defaultValue;
-        FloatConVarOptions opts = ((FloatConVarOptions) options);
+        IntConVarOptions opts = ((IntConVarOptions) options);
         this.min = opts.getMin();
         this.max = opts.getMax();
-        this.step = opts.getStep();
     }
 
     @Override
     public void setFromStrings(@NotNull String[] args) {
         try {
-            set(Float.parseFloat(args[0]));
+            set(Integer.parseInt(args[0]));
         } catch (NumberFormatException e) {
-            set(0);
+            try {
+                set((int) Float.parseFloat(args[0]));
+            } catch (NumberFormatException e1) {
+                set(0);
+            }
         }
     }
 
     @NotNull
     @Override
     public String[] getAsStrings() {
-        return new String[]{Float.toString(get())};
+        return arrayOf(Integer.toString(get()));
     }
 
     @Override
@@ -40,71 +45,63 @@ public abstract class FloatConVar implements net.dblsaiko.qcommon.cfg.core.api.c
         sb.append(name).append(" = ").append(this.get()).append(" (default ").append(this.defaultValue);
         if (min != null) sb.append(", min ").append(min);
         if (max != null) sb.append(", max ").append(max);
-        if (step != null) sb.append(", step ").append(step);
         sb.append(")");
         output.print(sb.toString());
     }
 
-    protected float clampValue(float value) {
-        if (step != null) value = (int) (value / step) * step;
+    protected int clampValue(int value) {
         if (min != null) value = Math.max(value, min);
         if (max != null) value = Math.min(value, max);
         return value;
     }
 
-    @NotNull
+    @Nullable
     @Override
-    public Float min() {
+    public Integer min() {
         return min;
     }
 
-    @NotNull
+    @Nullable
     @Override
-    public Float max() {
+    public Integer max() {
         return max;
     }
 
-    @NotNull
-    @Override
-    public Float step() {
-        return step;
-    }
+    public static class Owned extends IntConVar {
+        private int value;
 
-    public static class Owned extends FloatConVar {
-        private float value;
-
-        public Owned(float defaultValue, FloatConVar.Options options) {
+        public Owned(int defaultValue, Options options) {
             super(defaultValue, options);
             this.value = defaultValue;
         }
 
         @Override
-        public float get() {
+        public int get() {
             return value;
         }
 
         @Override
-        public void set(float value) {
+        public void set(int value) {
             this.value = clampValue(value);
         }
     }
 
-    public static class Wrapped extends FloatConVar {
+    public static class Wrapped extends IntConVar {
 
-        private FloatRef ref;
+        private IntRef ref;
 
-        public Wrapped(FloatRef ref, float defaultValue, FloatConVar.Options options) {
+        public Wrapped(IntRef ref, int defaultValue, Options options) {
             super(defaultValue, options);
             this.ref = ref;
         }
 
         @Override
-        public float get() {
+        public int get() {
             return clampValue(ref.get());
         }
 
         @Override
-        public void set(float value) {
+        public void set(int value) {
             ref.set(clampValue(value));
         }
     }

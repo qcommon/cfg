@@ -1,8 +1,7 @@
 package net.dblsaiko.qcommon.cfg.core.api.cvar;
 
-import org.jetbrains.annotations.NotNull;
-
 import net.dblsaiko.qcommon.cfg.core.api.ref.Ref;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A {@link ConVar} storing a {@link String}.
@@ -33,7 +32,7 @@ public interface StringConVar extends ConVar {
      */
     @NotNull
     static StringConVar owned(String defaultValue) {
-        return new net.dblsaiko.qcommon.cfg.core.api.impl.cvar.StringConVar.Owned(defaultValue);
+        return new net.dblsaiko.qcommon.cfg.core.cvar.StringConVar.Owned(defaultValue);
     }
 
     /**
@@ -57,7 +56,7 @@ public interface StringConVar extends ConVar {
      */
     @NotNull
     static StringConVar wrap(Ref<String> ref, String defaultValue) {
-        return new net.dblsaiko.qcommon.cfg.core.api.impl.cvar.StringConVar.Wrapped(ref, defaultValue);
+        return new net.dblsaiko.qcommon.cfg.core.cvar.StringConVar.Wrapped(ref, defaultValue);
     }
 
 }

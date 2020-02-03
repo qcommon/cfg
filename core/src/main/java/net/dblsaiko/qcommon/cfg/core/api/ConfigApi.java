@@ -20,7 +20,7 @@ public interface ConfigApi {
      */
     @NotNull
     static ConfigApi getInstance() {
-        return net.dblsaiko.qcommon.cfg.core.api.impl.ConfigApi.INSTANCE;
+        return net.dblsaiko.qcommon.cfg.core.ConfigApi.INSTANCE;
     }
 
     /**
@@ -30,7 +30,7 @@ public interface ConfigApi {
      */
     @NotNull
     static ConfigApi.Mutable getInstanceMut() {
-        return net.dblsaiko.qcommon.cfg.core.api.impl.ConfigApi.INSTANCE;
+        return net.dblsaiko.qcommon.cfg.core.ConfigApi.INSTANCE;
     }
 
     /**

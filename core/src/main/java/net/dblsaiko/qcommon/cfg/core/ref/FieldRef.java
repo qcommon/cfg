@@ -1,24 +1,18 @@
-package net.dblsaiko.qcommon.cfg.core.api.impl.ref;
+package net.dblsaiko.qcommon.cfg.core.ref;
+
+import net.dblsaiko.qcommon.cfg.core.api.ref.Ref;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.reflect.Field;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import net.dblsaiko.qcommon.cfg.core.api.ref.FloatRef;
-
-public class FieldFloatRef implements FloatRef {
+public class FieldRef<T> implements Ref<T> {
 
     private final MethodHandle getter;
     private final MethodHandle setter;
 
-    public FieldFloatRef(@NotNull Field field, @Nullable Object target) {
-        if (field.getType() != float.class) {
-            throw new IllegalArgumentException(String.format("Field %s is not of type float!", field));
-        }
+    public FieldRef(Field field, Object target) {
         Lookup mh = MethodHandles.lookup();
         try {
             this.getter = mh.unreflectGetter(field).bindTo(target);
@@ -28,17 +22,18 @@ public class FieldFloatRef implements FloatRef {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public float get() {
+    public T get() {
         try {
-            return (float) getter.invoke();
+            return (T) getter.invoke();
         } catch (Throwable throwable) {
             throw new RuntimeException(throwable);
         }
     }
 
     @Override
-    public void set(float value) {
+    public void set(T value) {
         try {
             setter.invoke(value);
         } catch (Throwable throwable) {

@@ -1,8 +1,7 @@
-package net.dblsaiko.qcommon.cfg.core.api.impl.cvar;
-
-import org.jetbrains.annotations.NotNull;
+package net.dblsaiko.qcommon.cfg.core.cvar;
 
 import net.dblsaiko.qcommon.cfg.core.api.cvar.FloatConVar.Options;
+import org.jetbrains.annotations.NotNull;
 
 public class FloatConVarOptions implements Options {
 

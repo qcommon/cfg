@@ -1,11 +1,11 @@
-package net.dblsaiko.qcommon.cfg.core.api.impl.ref;
+package net.dblsaiko.qcommon.cfg.core.ref;
+
+import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.reflect.Field;
-
-import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
 
 public class FieldIntRef implements IntRef {
 

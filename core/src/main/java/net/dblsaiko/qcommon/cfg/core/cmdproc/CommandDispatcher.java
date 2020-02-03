@@ -5,7 +5,7 @@ import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.ControlFlow;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
-import net.dblsaiko.qcommon.cfg.core.api.impl.CvarSyncManager;
+import net.dblsaiko.qcommon.cfg.core.cvar.CvarSyncManager;
 import net.dblsaiko.qcommon.cfg.core.net.CvarUpdatePacket;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.server.PlayerStream;

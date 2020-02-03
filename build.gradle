@@ -5,6 +5,7 @@ plugins {
 }
 
 allprojects {
+    apply plugin: 'maven-publish'
     apply plugin: 'fabric-loom'
 
     java {
@@ -12,14 +13,15 @@ allprojects {
         targetCompatibility = VERSION_1_8
     }
 
-    group = "net.dblsaiko.qcommon"
+    group = 'net.dblsaiko.qcommon.cfg'
+    version = '2.0.0'
 
     dependencies {
-        minecraft group: "com.mojang", name: "minecraft", version: minecraft_version
-        mappings group: "net.fabricmc", name: "yarn", version: mappings_version, classifier: "v2"
-        modCompile group: "net.fabricmc", name: "fabric-loader", version: loader_version
+        minecraft group: 'com.mojang', name: 'minecraft', version: minecraft_version
+        mappings group: 'net.fabricmc', name: 'yarn', version: mappings_version, classifier: 'v2'
+        modCompile group: 'net.fabricmc', name: 'fabric-loader', version: loader_version
 
-        modCompile group: "net.fabricmc.fabric-api", name: "fabric-api", version: fabric_api_version
+        modCompile group: 'net.fabricmc.fabric-api', name: 'fabric-api', version: fabric_api_version
 
         implementation group: 'org.jetbrains', name: 'annotations', version: '18.0.0'
     }
@@ -33,19 +35,19 @@ allprojects {
 
     afterEvaluate {
         artifacts {
-            dev file: file("${project.buildDir}/libs/$archivesBaseName-${version}-dev.jar"), type: "jar", builtBy: remapJar
+            dev file: file("${project.buildDir}/libs/$archivesBaseName-${version}-dev.jar"), type: 'jar', builtBy: remapJar
         }
 
         processResources {
-            inputs.property "version", project.version
+            inputs.property 'version', project.version
 
             from(sourceSets.main.resources.srcDirs) {
-                include "fabric.mod.json"
-                expand "version": project.version
+                include 'fabric.mod.json'
+                expand 'version': project.version
             }
 
             from(sourceSets.main.resources.srcDirs) {
-                exclude "fabric.mod.json"
+                exclude 'fabric.mod.json'
             }
         }
     }
@@ -54,6 +56,22 @@ allprojects {
         archiveClassifier = 'sources'
         from sourceSets.main.allSource
     }
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                // add all the jars that should be included when publishing to maven
+                artifact(remapJar) {
+                    builtBy remapJar
+                }
+                artifact(sourcesJar) {
+                    builtBy remapSourcesJar
+                }
+            }
+        }
+    }
+
+    apply from: 'https://raw.githubusercontent.com/2xsaiko/gradle-tools/master/publish/publish-slim.gradle'
 }
 
 subprojects {
@@ -86,7 +104,12 @@ dependencies {
 
     afterEvaluate {
         subprojects.each {
-            compile it
+            // This is needed to make IntelliJ set the classpath/module dependencies correctly
+            compile project("${it.name}:")
+
+            // This is needed to make the subproject include correctly
+            // (otherwise it complains about 'Failed to include nested jars, as it could not be found')
+            compile project(path: ":${it.name}", configuration: 'dev')
             include project("${it.name}:")
         }
     }

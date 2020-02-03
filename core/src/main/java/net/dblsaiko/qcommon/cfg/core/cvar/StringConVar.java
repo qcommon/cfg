@@ -1,9 +1,8 @@
-package net.dblsaiko.qcommon.cfg.core.api.impl.cvar;
-
-import org.jetbrains.annotations.NotNull;
+package net.dblsaiko.qcommon.cfg.core.cvar;
 
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.ref.Ref;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class StringConVar implements net.dblsaiko.qcommon.cfg.core.api.cvar.StringConVar {
 

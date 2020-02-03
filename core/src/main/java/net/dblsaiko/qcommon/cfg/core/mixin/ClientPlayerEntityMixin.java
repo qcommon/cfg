@@ -1,7 +1,7 @@
 package net.dblsaiko.qcommon.cfg.core.mixin;
 
+import net.dblsaiko.qcommon.cfg.core.ConfigApi;
 import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
-import net.dblsaiko.qcommon.cfg.core.api.impl.ConfigApi;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

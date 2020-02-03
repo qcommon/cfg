@@ -1,14 +1,13 @@
 package net.dblsaiko.qcommon.cfg.core.api.ref;
 
-import java.lang.reflect.Field;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
-
+import net.dblsaiko.qcommon.cfg.core.ref.CustomRef;
+import net.dblsaiko.qcommon.cfg.core.ref.FieldRef;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.dblsaiko.qcommon.cfg.core.api.impl.ref.CustomRef;
-import net.dblsaiko.qcommon.cfg.core.api.impl.ref.FieldRef;
+import java.lang.reflect.Field;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * A mutable reference to an object.

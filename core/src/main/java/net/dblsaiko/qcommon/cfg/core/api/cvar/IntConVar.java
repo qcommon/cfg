@@ -1,12 +1,11 @@
 package net.dblsaiko.qcommon.cfg.core.api.cvar;
 
+import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
+import net.dblsaiko.qcommon.cfg.core.cvar.IntConVar.Owned;
+import net.dblsaiko.qcommon.cfg.core.cvar.IntConVar.Wrapped;
+import net.dblsaiko.qcommon.cfg.core.cvar.IntConVarOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import net.dblsaiko.qcommon.cfg.core.api.impl.cvar.IntConVar.Owned;
-import net.dblsaiko.qcommon.cfg.core.api.impl.cvar.IntConVar.Wrapped;
-import net.dblsaiko.qcommon.cfg.core.api.impl.cvar.IntConVarOptions;
-import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
 
 /**
  * A {@link ConVar} storing an integer.

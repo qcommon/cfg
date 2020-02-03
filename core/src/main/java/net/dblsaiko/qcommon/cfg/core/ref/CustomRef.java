@@ -1,9 +1,9 @@
-package net.dblsaiko.qcommon.cfg.core.api.impl.ref;
+package net.dblsaiko.qcommon.cfg.core.ref;
+
+import net.dblsaiko.qcommon.cfg.core.api.ref.Ref;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-
-import net.dblsaiko.qcommon.cfg.core.api.ref.Ref;
 
 public class CustomRef<T> implements Ref<T> {
 

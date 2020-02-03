@@ -1,9 +1,9 @@
-package net.dblsaiko.qcommon.cfg.core.api.impl.ref;
+package net.dblsaiko.qcommon.cfg.core.ref;
+
+import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
 
 import java.util.function.IntConsumer;
 import java.util.function.IntSupplier;
-
-import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
 
 public class CustomIntRef implements IntRef {
 

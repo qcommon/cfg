@@ -1,4 +1,4 @@
-package net.dblsaiko.qcommon.cfg.core.api.impl.cvar;
+package net.dblsaiko.qcommon.cfg.core.cvar;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

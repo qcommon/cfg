@@ -21,4 +21,9 @@ public enum ExecSource {
      */
     KEY,
 
+    /**
+     * The script has been executed because of some UI action.
+     */
+    UI,
+
 }

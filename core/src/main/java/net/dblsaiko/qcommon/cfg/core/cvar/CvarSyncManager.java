@@ -1,4 +1,4 @@
-package net.dblsaiko.qcommon.cfg.core.api.impl;
+package net.dblsaiko.qcommon.cfg.core.cvar;
 
 import net.dblsaiko.qcommon.cfg.core.api.sync.SyncListener;
 import net.dblsaiko.qcommon.cfg.core.cmdproc.CommandRegistry;

@@ -1,24 +1,17 @@
 package net.dblsaiko.qcommon.cfg.core.persistence;
 
+import net.dblsaiko.qcommon.cfg.core.ConfigApi;
+import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
+import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
+import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
+import net.dblsaiko.qcommon.cfg.core.cmdproc.CommandDispatcher;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
-import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
-import net.dblsaiko.qcommon.cfg.core.api.impl.ConfigApi;
-import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
-import net.dblsaiko.qcommon.cfg.core.cmdproc.CommandDispatcher;
+import java.util.*;
 
 public class PersistenceManager {
 
