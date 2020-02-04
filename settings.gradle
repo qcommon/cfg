@@ -9,8 +9,8 @@ pluginManagement {
     }
 }
 
-include 'core'
-// include 'core-kotlin'
-include 'base'
-include 'ui'
-include 'keys'
+include 'cfg-core'
+// include 'cfg-core-kotlin'
+include 'cfg-base'
+include 'cfg-ui'
+include 'cfg-keys'
