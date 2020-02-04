@@ -1,3 +1,5 @@
+version = ui_version
+
 dependencies {
     compile project(':cfg-core')
 }

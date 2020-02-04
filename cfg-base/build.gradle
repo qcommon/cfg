@@ -1,2 +1,4 @@
+version = base_version
+
 dependencies {
 }

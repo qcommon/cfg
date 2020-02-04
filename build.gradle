@@ -4,6 +4,8 @@ plugins {
     id 'fabric-loom' version '0.2.7-SNAPSHOT' apply false
 }
 
+version = cfg_version
+
 allprojects {
     apply plugin: 'maven-publish'
     apply plugin: 'fabric-loom'
@@ -14,7 +16,6 @@ allprojects {
     }
 
     group = 'net.dblsaiko.qcommon.cfg'
-    version = '2.0.0'
 
     dependencies {
         minecraft group: 'com.mojang', name: 'minecraft', version: minecraft_version
@@ -71,14 +72,16 @@ subprojects {
         }
     }
 
-    publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                artifact(file("${project.buildDir}/libs/$archivesBaseName-${project.version}-maven.jar")) {
-                    builtBy remapMavenJar
-                }
-                artifact(sourcesJar) {
-                    builtBy remapSourcesJar
+    afterEvaluate {
+        publishing {
+            publications {
+                mavenJava(MavenPublication) {
+                    artifact(file("${project.buildDir}/libs/$archivesBaseName-${project.version}-maven.jar")) {
+                        builtBy remapMavenJar
+                    }
+                    artifact(sourcesJar) {
+                        builtBy remapSourcesJar
+                    }
                 }
             }
         }
@@ -125,7 +128,7 @@ repositories {
 }
 
 dependencies {
-    modRuntime group: 'net.dblsaiko', name: 'winwonders', version: '0.1.0-1'
+    modRuntime group: 'net.dblsaiko', name: 'winwonders', version: '0.1.1-3'
     modRuntime group: 'io.github.prospector', name: 'modmenu', version: '1.8.5+build.23'
 
     afterEvaluate {
