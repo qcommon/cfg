@@ -9,6 +9,8 @@ pluginManagement {
     }
 }
 
+rootProject.name = 'cfg'
+
 include 'cfg-core'
 // include 'cfg-core-kotlin'
 include 'cfg-base'
