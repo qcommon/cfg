@@ -62,8 +62,6 @@ allprojects {
 }
 
 subprojects {
-    archivesBaseName = "cfg-${name}"
-
     task remapMavenJar(type: Copy, dependsOn: remapJar) {
         afterEvaluate {
             from("${project.buildDir}/libs/$archivesBaseName-${version}.jar")
