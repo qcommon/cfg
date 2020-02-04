@@ -12,7 +12,6 @@
   "license": "MIT",
   "environment": "*",
   "entrypoints": {
-    "main": ["net.dblsaiko.qcommon.cfg.core.Main"],
     "client": ["net.dblsaiko.qcommon.cfg.core.MainClient"],
     "server": ["net.dblsaiko.qcommon.cfg.core.MainServer"]
   },
