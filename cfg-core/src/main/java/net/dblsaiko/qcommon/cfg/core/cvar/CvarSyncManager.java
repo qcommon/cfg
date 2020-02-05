@@ -61,12 +61,12 @@ public class CvarSyncManager implements SyncListener {
         Map<String, String[]> values = trackedCvars.stream()
             .map(cvar -> Pair.of(cvar, Objects.requireNonNull(registry.findCvar(cvar)).getAsStrings()))
             .collect(HashMap::new, (map, entry) -> map.put(entry.getKey(), entry.getValue()), HashMap::putAll);
-        return CvarUpdatePacket.of(values);
+        return CvarUpdatePacket.of(values, true);
     }
 
     public CvarUpdatePacket getUpdatePacketFor(String cvar) {
-        if (!trackedCvars.contains(cvar)) return CvarUpdatePacket.of(Collections.emptyMap());
-        return CvarUpdatePacket.of(Collections.singletonMap(cvar, Objects.requireNonNull(registry.findCvar(cvar)).getAsStrings()));
+        if (!trackedCvars.contains(cvar)) return CvarUpdatePacket.of(Collections.emptyMap(), false);
+        return CvarUpdatePacket.of(Collections.singletonMap(cvar, Objects.requireNonNull(registry.findCvar(cvar)).getAsStrings()), false);
     }
 
     @Override

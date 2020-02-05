@@ -1,6 +1,7 @@
 package net.dblsaiko.qcommon.cfg.core.net;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -23,9 +24,11 @@ public class CvarUpdatePacket {
     public static final Identifier PACKET_ID = new Identifier("qcommon-cfg", "cvars");
 
     private final Map<String, String[]> values;
+    private final boolean isSilentUpdate;
 
-    public CvarUpdatePacket(Map<String, String[]> values) {
+    public CvarUpdatePacket(Map<String, String[]> values, boolean isSilentUpdate) {
         this.values = values;
+        this.isSilentUpdate = isSilentUpdate;
     }
 
     public void sendTo(PlayerEntity player) {
@@ -39,14 +42,15 @@ public class CvarUpdatePacket {
         ctx.getTaskQueue().execute(() -> {
             ConfigApi api = ConfigApi.INSTANCE;
             if (api.lockCvars()) {
+                ClientPlayerEntity player = MinecraftClient.getInstance().player;
                 values.forEach((key, value) -> {
                     ConVar conVar = api.getConVar(key);
                     if (conVar != null && api.allowRemoteSetCvar(key)) {
                         String oldValue = conVar.getStringRepr();
                         conVar.setFromStrings(value);
 
-                        if (MinecraftClient.getInstance().player != null) {
-                            MinecraftClient.getInstance().player.addChatMessage(new TranslatableText("qcommon-cfg.cvar_changed", key, oldValue, conVar.getStringRepr()).formatted(Formatting.GOLD), false);
+                        if (!isSilentUpdate && player != null) {
+                            player.addChatMessage(new TranslatableText("qcommon-cfg.cvar_changed", key, oldValue, conVar.getStringRepr()).formatted(Formatting.GOLD), false);
                         }
                     } else {
                         ConfigApi.logger.warn("Server tried setting non-sync cvar '{}'", key);
@@ -66,6 +70,7 @@ public class CvarUpdatePacket {
             buf.writeVarInt(value.length);
             Arrays.stream(value).forEach(buf::writeString);
         });
+        buf.writeBoolean(isSilentUpdate);
     }
 
     public static CvarUpdatePacket from(PacketByteBuf buf) {
@@ -80,11 +85,12 @@ public class CvarUpdatePacket {
             }
             values.put(key, value);
         }
-        return CvarUpdatePacket.of(values);
+        boolean silentUpdate = buf.readBoolean();
+        return CvarUpdatePacket.of(values, silentUpdate);
     }
 
-    public static CvarUpdatePacket of(Map<String, String[]> values) {
-        return new CvarUpdatePacket(values);
+    public static CvarUpdatePacket of(Map<String, String[]> values, boolean silentUpdate) {
+        return new CvarUpdatePacket(values, silentUpdate);
     }
 
     public static void register() {

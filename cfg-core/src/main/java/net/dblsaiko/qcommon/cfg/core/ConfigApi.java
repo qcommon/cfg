@@ -145,7 +145,6 @@ public class ConfigApi implements net.dblsaiko.qcommon.cfg.core.api.ConfigApi.Mu
     }
 
     public void onPlayerConnect(ServerPlayerEntity player) {
-        cvarSyncManager.getFullUpdatePacket().sendTo(player);
         syncListeners.forEach($ -> $.updateAll(Collections.singleton(player)));
     }
 
