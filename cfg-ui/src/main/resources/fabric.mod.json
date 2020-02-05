@@ -14,7 +14,7 @@
   "entrypoints": {
     "main": ["net.dblsaiko.qcommon.cfg.ui.Main"]
   },
-  "mixins": [],
+  "mixins": ["cfg-ui.mixins.json"],
   "depends": {
     "fabricloader": ">=0.4.0",
     "fabric": "*",

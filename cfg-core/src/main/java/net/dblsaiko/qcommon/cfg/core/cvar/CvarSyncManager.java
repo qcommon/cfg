@@ -12,12 +12,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+import org.apache.commons.lang3.tuple.Pair;
+import org.jetbrains.annotations.NotNull;
+
 import net.dblsaiko.qcommon.cfg.core.ConfigApi;
 import net.dblsaiko.qcommon.cfg.core.api.sync.SyncListener;
 import net.dblsaiko.qcommon.cfg.core.cmdproc.CommandRegistry;
 import net.dblsaiko.qcommon.cfg.core.net.CvarUpdatePacket;
-import org.apache.commons.lang3.tuple.Pair;
-import org.jetbrains.annotations.NotNull;
 
 public class CvarSyncManager implements SyncListener {
 
