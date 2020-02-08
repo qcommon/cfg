@@ -7,7 +7,7 @@ public class MainServer implements DedicatedServerModInitializer {
 
     @Override
     public void onInitializeServer() {
-        ServerTickCallback.EVENT.register(server -> ConfigApi.INSTANCE.resumeScripts());
+        ServerTickCallback.EVENT.register(server -> ConfigApiImpl.INSTANCE.resumeScripts());
     }
 
 }

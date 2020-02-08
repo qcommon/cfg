@@ -4,11 +4,12 @@ import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 
-import net.dblsaiko.qcommon.cfg.core.ConfigApi;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import net.dblsaiko.qcommon.cfg.core.ConfigApiImpl;
 
 @Mixin(PlayerManager.class)
 public class PlayerManagerMixin {
@@ -18,7 +19,7 @@ public class PlayerManagerMixin {
         at = @At("RETURN")
     )
     private void onPlayerConnect(ClientConnection connection, ServerPlayerEntity player, CallbackInfo ci) {
-        ConfigApi.INSTANCE.onPlayerConnect(player);
+        ConfigApiImpl.INSTANCE.onPlayerConnect(player);
     }
 
 }

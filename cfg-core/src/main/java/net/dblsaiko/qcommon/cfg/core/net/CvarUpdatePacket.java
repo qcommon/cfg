@@ -16,7 +16,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import io.netty.buffer.Unpooled;
-import net.dblsaiko.qcommon.cfg.core.ConfigApi;
+
+import net.dblsaiko.qcommon.cfg.core.ConfigApiImpl;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 
 public class CvarUpdatePacket {
@@ -40,7 +41,7 @@ public class CvarUpdatePacket {
 
     private void onReceive(PacketContext ctx) {
         ctx.getTaskQueue().execute(() -> {
-            ConfigApi api = ConfigApi.INSTANCE;
+            ConfigApiImpl api = ConfigApiImpl.INSTANCE;
             if (api.lockCvars()) {
                 ClientPlayerEntity player = MinecraftClient.getInstance().player;
                 values.forEach((key, value) -> {
@@ -53,12 +54,12 @@ public class CvarUpdatePacket {
                             player.addChatMessage(new TranslatableText("qcommon-cfg.cvar_changed", key, oldValue, conVar.getStringRepr()).formatted(Formatting.GOLD), false);
                         }
                     } else {
-                        ConfigApi.logger.warn("Server tried setting non-sync cvar '{}'", key);
+                        ConfigApiImpl.logger.warn("Server tried setting non-sync cvar '{}'", key);
                     }
                 });
             } else {
                 // This is expected when joining a singleplayer world.
-                ConfigApi.logger.debug("Ignoring cvar sync packet, could not lock remote cvars");
+                ConfigApiImpl.logger.debug("Ignoring cvar sync packet, could not lock remote cvars");
             }
         });
     }

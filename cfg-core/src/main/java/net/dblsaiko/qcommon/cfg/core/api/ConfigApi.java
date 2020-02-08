@@ -1,12 +1,14 @@
 package net.dblsaiko.qcommon.cfg.core.api;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import net.dblsaiko.qcommon.cfg.core.ConfigApiImpl;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions;
 import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
 import net.dblsaiko.qcommon.cfg.core.api.sync.SyncListener;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * The central API for qcommon-cfg.
@@ -20,7 +22,7 @@ public interface ConfigApi {
      */
     @NotNull
     static ConfigApi getInstance() {
-        return net.dblsaiko.qcommon.cfg.core.ConfigApi.INSTANCE;
+        return ConfigApiImpl.INSTANCE;
     }
 
     /**
@@ -30,7 +32,7 @@ public interface ConfigApi {
      */
     @NotNull
     static ConfigApi.Mutable getInstanceMut() {
-        return net.dblsaiko.qcommon.cfg.core.ConfigApi.INSTANCE;
+        return ConfigApiImpl.INSTANCE;
     }
 
     /**

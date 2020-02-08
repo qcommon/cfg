@@ -1,9 +1,11 @@
 package net.dblsaiko.qcommon.cfg.core.api.cvar;
 
-import net.dblsaiko.qcommon.cfg.core.api.ref.FloatRef;
-import net.dblsaiko.qcommon.cfg.core.cvar.FloatConVarOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import net.dblsaiko.qcommon.cfg.core.api.ref.FloatRef;
+import net.dblsaiko.qcommon.cfg.core.cvar.FloatConVarImpl;
+import net.dblsaiko.qcommon.cfg.core.cvar.FloatConVarOptions;
 
 /**
  * A {@link ConVar} storing a float.
@@ -74,7 +76,7 @@ public interface FloatConVar extends ConVar {
      */
     @NotNull
     static FloatConVar owned(float defaultValue, Options options) {
-        return new net.dblsaiko.qcommon.cfg.core.cvar.FloatConVar.Owned(defaultValue, options);
+        return new FloatConVarImpl.Owned(defaultValue, options);
     }
 
     /**
@@ -111,7 +113,7 @@ public interface FloatConVar extends ConVar {
      */
     @NotNull
     static FloatConVar wrap(@NotNull FloatRef ref, float defaultValue, @NotNull Options options) {
-        return new net.dblsaiko.qcommon.cfg.core.cvar.FloatConVar.Wrapped(ref, defaultValue, options);
+        return new FloatConVarImpl.Wrapped(ref, defaultValue, options);
     }
 
     /**

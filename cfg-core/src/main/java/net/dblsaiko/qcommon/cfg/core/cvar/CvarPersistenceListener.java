@@ -8,11 +8,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import net.dblsaiko.qcommon.cfg.core.ConfigApi;
+import org.apache.commons.lang3.tuple.Pair;
+
+import net.dblsaiko.qcommon.cfg.core.ConfigApiImpl;
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
-import org.apache.commons.lang3.tuple.Pair;
 
 public class CvarPersistenceListener implements PersistenceListener {
 
@@ -21,7 +22,7 @@ public class CvarPersistenceListener implements PersistenceListener {
     @Override
     public void write(String file, LinePrinter output) {
         cvars.get(file).stream()
-            .map(cvar -> Stream.concat(Stream.of(cvar.getLeft()), Arrays.stream(cvar.getRight().getAsStrings()).map(ConfigApi.INSTANCE::escape)).collect(Collectors.joining(" ")))
+            .map(cvar -> Stream.concat(Stream.of(cvar.getLeft()), Arrays.stream(cvar.getRight().getAsStrings()).map(ConfigApiImpl.INSTANCE::escape)).collect(Collectors.joining(" ")))
             .forEach(output::print);
     }
 

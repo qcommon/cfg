@@ -1,19 +1,21 @@
 package net.dblsaiko.qcommon.cfg.core.cvar;
 
-import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
-import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
+import net.dblsaiko.qcommon.cfg.core.api.cvar.IntConVar;
+import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
+
 import static net.dblsaiko.qcommon.cfg.core.util.ArrayUtil.arrayOf;
 
-public abstract class IntConVar implements net.dblsaiko.qcommon.cfg.core.api.cvar.IntConVar {
+public abstract class IntConVarImpl implements IntConVar {
 
     private final int defaultValue;
     private final Integer min;
     private final Integer max;
 
-    protected IntConVar(int defaultValue, Options options) {
+    protected IntConVarImpl(int defaultValue, Options options) {
         this.defaultValue = defaultValue;
         IntConVarOptions opts = ((IntConVarOptions) options);
         this.min = opts.getMin();
@@ -73,7 +75,7 @@ public abstract class IntConVar implements net.dblsaiko.qcommon.cfg.core.api.cva
         return max;
     }
 
-    public static class Owned extends IntConVar {
+    public static class Owned extends IntConVarImpl {
         private int value;
 
         public Owned(int defaultValue, Options options) {
@@ -92,7 +94,7 @@ public abstract class IntConVar implements net.dblsaiko.qcommon.cfg.core.api.cva
         }
     }
 
-    public static class Wrapped extends IntConVar {
+    public static class Wrapped extends IntConVarImpl {
 
         private IntRef ref;
 

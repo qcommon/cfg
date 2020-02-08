@@ -1,16 +1,18 @@
 package net.dblsaiko.qcommon.cfg.core.cvar;
 
-import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
-import net.dblsaiko.qcommon.cfg.core.api.ref.Ref;
 import org.jetbrains.annotations.NotNull;
+
+import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
+import net.dblsaiko.qcommon.cfg.core.api.cvar.StringConVar;
+import net.dblsaiko.qcommon.cfg.core.api.ref.Ref;
 
 import static net.dblsaiko.qcommon.cfg.core.util.ArrayUtil.arrayOf;
 
-public abstract class StringConVar implements net.dblsaiko.qcommon.cfg.core.api.cvar.StringConVar {
+public abstract class StringConVarImpl implements StringConVar {
 
     private final String defaultValue;
 
-    protected StringConVar(String defaultValue) {
+    protected StringConVarImpl(String defaultValue) {
         this.defaultValue = defaultValue;
     }
 
@@ -36,7 +38,7 @@ public abstract class StringConVar implements net.dblsaiko.qcommon.cfg.core.api.
         output.printf("%s = '%s' (default '%s')", name, this.get(), this.defaultValue);
     }
 
-    public static class Owned extends StringConVar {
+    public static class Owned extends StringConVarImpl {
         private String value;
 
         public Owned(String defaultValue) {
@@ -56,7 +58,7 @@ public abstract class StringConVar implements net.dblsaiko.qcommon.cfg.core.api.
         }
     }
 
-    public static class Wrapped extends StringConVar {
+    public static class Wrapped extends StringConVarImpl {
 
         private Ref<String> ref;
 

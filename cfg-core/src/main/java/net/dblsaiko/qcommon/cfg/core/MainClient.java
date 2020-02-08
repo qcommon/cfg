@@ -18,11 +18,11 @@ public class MainClient implements ClientModInitializer {
         ClientTickCallback.EVENT.register(client -> {
             Profiler profiler = client.getProfiler();
             profiler.push("command_exec");
-            ConfigApi.INSTANCE.resumeScripts();
+            ConfigApiImpl.INSTANCE.resumeScripts();
             profiler.pop();
         });
 
-        ConfigApi.INSTANCE.registerOutput(s -> {
+        ConfigApiImpl.INSTANCE.registerOutput(s -> {
             ClientPlayerEntity player = MinecraftClient.getInstance().player;
             if (player != null) {
                 player.addChatMessage(new LiteralText(s), false);

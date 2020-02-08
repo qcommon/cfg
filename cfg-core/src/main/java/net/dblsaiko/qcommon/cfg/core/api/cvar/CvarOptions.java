@@ -2,6 +2,8 @@ package net.dblsaiko.qcommon.cfg.core.api.cvar;
 
 import org.jetbrains.annotations.NotNull;
 
+import net.dblsaiko.qcommon.cfg.core.cvar.CvarOptionsImpl;
+
 /**
  * Options for cvar registration.
  */
@@ -39,7 +41,7 @@ public interface CvarOptions {
      */
     @NotNull
     static CvarOptions create() {
-        return new net.dblsaiko.qcommon.cfg.core.cvar.CvarOptions();
+        return new CvarOptionsImpl();
     }
 
 }

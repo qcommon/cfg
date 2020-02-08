@@ -15,7 +15,7 @@ import java.util.Set;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.NotNull;
 
-import net.dblsaiko.qcommon.cfg.core.ConfigApi;
+import net.dblsaiko.qcommon.cfg.core.ConfigApiImpl;
 import net.dblsaiko.qcommon.cfg.core.api.sync.SyncListener;
 import net.dblsaiko.qcommon.cfg.core.cmdproc.CommandRegistry;
 import net.dblsaiko.qcommon.cfg.core.net.CvarUpdatePacket;
@@ -46,7 +46,7 @@ public class CvarSyncManager implements SyncListener {
     public boolean lockCvars() {
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT &&
             MinecraftClient.getInstance().getCurrentServerEntry() != null) {
-            if (!cvarsLocked) ConfigApi.logger.info("Locking remote cvars");
+            if (!cvarsLocked) ConfigApiImpl.logger.info("Locking remote cvars");
             cvarsLocked = true;
             return true;
         }
@@ -54,7 +54,7 @@ public class CvarSyncManager implements SyncListener {
     }
 
     public void unlockCvars() {
-        if (cvarsLocked) ConfigApi.logger.info("Unlocking remote cvars");
+        if (cvarsLocked) ConfigApiImpl.logger.info("Unlocking remote cvars");
         cvarsLocked = false;
     }
 

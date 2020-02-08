@@ -7,6 +7,12 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
 import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
@@ -15,30 +21,26 @@ import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
 import net.dblsaiko.qcommon.cfg.core.api.sync.SyncListener;
 import net.dblsaiko.qcommon.cfg.core.cmdproc.CommandDispatcher;
 import net.dblsaiko.qcommon.cfg.core.cmdproc.CommandRegistry;
-import net.dblsaiko.qcommon.cfg.core.cvar.CvarOptions;
+import net.dblsaiko.qcommon.cfg.core.cvar.CvarOptionsImpl;
 import net.dblsaiko.qcommon.cfg.core.cvar.CvarPersistenceListener;
 import net.dblsaiko.qcommon.cfg.core.cvar.CvarSyncManager;
 import net.dblsaiko.qcommon.cfg.core.persistence.PersistenceManager;
 import net.dblsaiko.qcommon.cfg.core.util.CombinedLinePrinter;
 import net.dblsaiko.qcommon.cfg.core.util.ExecCommand;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public class ConfigApi implements net.dblsaiko.qcommon.cfg.core.api.ConfigApi.Mutable {
+public class ConfigApiImpl implements ConfigApi.Mutable {
 
     public static final String MOD_ID = "qcommon-cfg";
     public static final Logger logger = LogManager.getLogger(MOD_ID);
 
     /**
-     * The internal {@link ConfigApi} instance.
+     * The internal {@link ConfigApiImpl} instance.
      * <p>
-     * Use {@link net.dblsaiko.qcommon.cfg.core.api.ConfigApi#getInstance()} or
-     * {@link net.dblsaiko.qcommon.cfg.core.api.ConfigApi#getInstanceMut()}
+     * Use {@link ConfigApi#getInstance()} or
+     * {@link ConfigApi#getInstanceMut()}
      * instead!
      */
-    public static final ConfigApi INSTANCE = new ConfigApi();
+    public static final ConfigApiImpl INSTANCE = new ConfigApiImpl();
 
     private final CombinedLinePrinter output = new CombinedLinePrinter();
     private final CommandRegistry registry = new CommandRegistry();
@@ -48,7 +50,7 @@ public class ConfigApi implements net.dblsaiko.qcommon.cfg.core.api.ConfigApi.Mu
     private final PersistenceManager persistenceManager = new PersistenceManager(dispatcher);
     private final Set<SyncListener> syncListeners = new HashSet<>();
 
-    private ConfigApi() {
+    private ConfigApiImpl() {
         output.addListener(logger::info);
         persistenceManager.addListener(cvarPersistenceListener);
         registerSyncListener(cvarSyncManager);
@@ -94,7 +96,7 @@ public class ConfigApi implements net.dblsaiko.qcommon.cfg.core.api.ConfigApi.Mu
     public <T extends ConVar> T addConVar(@NotNull String name, @NotNull T cvar, @NotNull net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions options) {
         registry.addConVar(name, cvar);
 
-        CvarOptions opts = ((CvarOptions) options);
+        CvarOptionsImpl opts = ((CvarOptionsImpl) options);
 
         if (opts.getSavedTo() != null) {
             cvarPersistenceListener.register(name, cvar, opts.getSavedTo());

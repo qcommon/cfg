@@ -1,19 +1,21 @@
 package net.dblsaiko.qcommon.cfg.core.cvar;
 
-import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
-import net.dblsaiko.qcommon.cfg.core.api.ref.FloatRef;
 import org.jetbrains.annotations.NotNull;
+
+import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
+import net.dblsaiko.qcommon.cfg.core.api.cvar.FloatConVar;
+import net.dblsaiko.qcommon.cfg.core.api.ref.FloatRef;
 
 import static net.dblsaiko.qcommon.cfg.core.util.ArrayUtil.arrayOf;
 
-public abstract class FloatConVar implements net.dblsaiko.qcommon.cfg.core.api.cvar.FloatConVar {
+public abstract class FloatConVarImpl implements FloatConVar {
 
     private final float defaultValue;
     private final Float min;
     private final Float max;
     private final Float step;
 
-    protected FloatConVar(float defaultValue, FloatConVar.Options options) {
+    protected FloatConVarImpl(float defaultValue, FloatConVarImpl.Options options) {
         this.defaultValue = defaultValue;
         FloatConVarOptions opts = ((FloatConVarOptions) options);
         this.min = opts.getMin();
@@ -78,10 +80,10 @@ public abstract class FloatConVar implements net.dblsaiko.qcommon.cfg.core.api.c
         return step;
     }
 
-    public static class Owned extends FloatConVar {
+    public static class Owned extends FloatConVarImpl {
         private float value;
 
-        public Owned(float defaultValue, FloatConVar.Options options) {
+        public Owned(float defaultValue, FloatConVarImpl.Options options) {
             super(defaultValue, options);
             this.value = defaultValue;
         }
@@ -97,11 +99,11 @@ public abstract class FloatConVar implements net.dblsaiko.qcommon.cfg.core.api.c
         }
     }
 
-    public static class Wrapped extends FloatConVar {
+    public static class Wrapped extends FloatConVarImpl {
 
         private FloatRef ref;
 
-        public Wrapped(FloatRef ref, float defaultValue, FloatConVar.Options options) {
+        public Wrapped(FloatRef ref, float defaultValue, FloatConVarImpl.Options options) {
             super(defaultValue, options);
             this.ref = ref;
         }

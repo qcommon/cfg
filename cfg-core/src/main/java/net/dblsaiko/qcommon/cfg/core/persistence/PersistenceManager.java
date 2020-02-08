@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.dblsaiko.qcommon.cfg.core.ConfigApi;
+import net.dblsaiko.qcommon.cfg.core.ConfigApiImpl;
 import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
@@ -69,7 +69,7 @@ public class PersistenceManager {
         listeners.stream()
             .flatMap($ -> $.files().stream())
             .distinct()
-            .forEach(file -> dispatcher.exec(String.format("exec %s", ConfigApi.INSTANCE.escape(file)), ExecSource.EVENT));
+            .forEach(file -> dispatcher.exec(String.format("exec %s", ConfigApiImpl.INSTANCE.escape(file)), ExecSource.EVENT));
     }
 
 }
