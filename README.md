@@ -136,8 +136,6 @@ connects, and prevent the user from modifying that cvar on the client for as
 long as it is connected. Any changes to the cvar on the server side will be
 automatically propagated to the client.
 
-## For Players
-
 ### Commands
 
 _TODO_
@@ -145,6 +143,8 @@ _TODO_
 ```
 api.addCommand("test", (args, src, output, cf) -> output.print("Hello World!"));
 ```
+
+## For Players
 
 ### Scripting
 
