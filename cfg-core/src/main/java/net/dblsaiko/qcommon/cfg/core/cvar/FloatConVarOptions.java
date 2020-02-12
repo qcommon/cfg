@@ -1,33 +1,37 @@
 package net.dblsaiko.qcommon.cfg.core.cvar;
 
-import net.dblsaiko.qcommon.cfg.core.api.cvar.FloatConVar.Options;
 import org.jetbrains.annotations.NotNull;
+
+import net.dblsaiko.qcommon.cfg.core.api.cvar.FloatConVar.Options;
 
 public class FloatConVarOptions implements Options {
 
-    private Float max = null;
-    private Float min = null;
-    private Float step = null;
+    private final Float min;
+    private final Float max;
+    private final Float step;
+
+    private FloatConVarOptions(Float min, Float max, Float step) {
+        this.min = min;
+        this.max = max;
+        this.step = step;
+    }
 
     @NotNull
     @Override
     public Options min(float value) {
-        this.min = value;
-        return this;
+        return new FloatConVarOptions(value, max, step);
     }
 
     @NotNull
     @Override
     public Options max(float value) {
-        this.max = value;
-        return this;
+        return new FloatConVarOptions(min, value, step);
     }
 
     @NotNull
     @Override
     public Options step(float value) {
-        this.step = value;
-        return this;
+        return new FloatConVarOptions(min, max, value);
     }
 
     public Float getMax() {
@@ -40,6 +44,10 @@ public class FloatConVarOptions implements Options {
 
     public Float getStep() {
         return step;
+    }
+
+    public static FloatConVarOptions create() {
+        return new FloatConVarOptions(null, null, null);
     }
 
 }

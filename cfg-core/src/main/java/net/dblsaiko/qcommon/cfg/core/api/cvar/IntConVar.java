@@ -115,7 +115,7 @@ public interface IntConVar extends ConVar {
          * Set the minimum value the created {@link IntConVar} can become.
          *
          * @param value the minimum value
-         * @return this
+         * @return a new {@link Options} instance with this option changed
          * @see IntConVar#min()
          */
         @NotNull
@@ -125,7 +125,7 @@ public interface IntConVar extends ConVar {
          * Set the maximum value the created {@link IntConVar} can become.
          *
          * @param value the maximum value
-         * @return this
+         * @return a new {@link Options} instance with this option changed
          * @see IntConVar#max()
          */
         @NotNull
@@ -139,7 +139,7 @@ public interface IntConVar extends ConVar {
          */
         @NotNull
         static Options create() {
-            return new IntConVarOptions();
+            return IntConVarOptions.create();
         }
 
     }

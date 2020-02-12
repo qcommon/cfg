@@ -15,7 +15,7 @@ public interface CvarOptions {
      * in case of any modifications from the server, the new value will be sent
      * to all connected clients.
      *
-     * @return this
+     * @return a new {@link CvarOptions} instance with this option changed
      */
     @NotNull
     CvarOptions sync();
@@ -28,7 +28,7 @@ public interface CvarOptions {
      * when the player leaves the server.
      *
      * @param file the file to save this to, will end up as config/{file}.cfg
-     * @return this
+     * @return a new {@link CvarOptions} instance with this option changed
      */
     @NotNull
     CvarOptions save(@NotNull String file);
@@ -41,7 +41,7 @@ public interface CvarOptions {
      */
     @NotNull
     static CvarOptions create() {
-        return new CvarOptionsImpl();
+        return CvarOptionsImpl.create();
     }
 
 }

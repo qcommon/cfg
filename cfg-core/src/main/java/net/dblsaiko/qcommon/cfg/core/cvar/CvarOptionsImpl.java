@@ -7,21 +7,24 @@ import net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions;
 
 public class CvarOptionsImpl implements CvarOptions {
 
-    private boolean sync = false;
-    private String savedTo = null;
+    private final boolean sync;
+    private final String savedTo;
+
+    private CvarOptionsImpl(boolean sync, String savedTo) {
+        this.sync = sync;
+        this.savedTo = savedTo;
+    }
 
     @NotNull
     @Override
     public CvarOptionsImpl sync() {
-        sync = true;
-        return this;
+        return new CvarOptionsImpl(true, savedTo);
     }
 
     @NotNull
     @Override
     public CvarOptionsImpl save(@NotNull String file) {
-        savedTo = file;
-        return this;
+        return new CvarOptionsImpl(sync, file);
     }
 
     public boolean isSync() {
@@ -31,6 +34,10 @@ public class CvarOptionsImpl implements CvarOptions {
     @Nullable
     public String getSavedTo() {
         return savedTo;
+    }
+
+    public static CvarOptionsImpl create() {
+        return new CvarOptionsImpl(false, null);
     }
 
 }

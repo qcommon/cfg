@@ -125,7 +125,7 @@ public interface FloatConVar extends ConVar {
          * Set the minimum value the created {@link FloatConVar} can become.
          *
          * @param value the minimum value
-         * @return this
+         * @return a new {@link Options} instance with this option changed
          * @see FloatConVar#min()
          */
         @NotNull
@@ -135,7 +135,7 @@ public interface FloatConVar extends ConVar {
          * Set the maximum value the created {@link FloatConVar} can become.
          *
          * @param value the maximum value
-         * @return this
+         * @return a new {@link Options} instance with this option changed
          * @see FloatConVar#max()
          */
         @NotNull
@@ -145,7 +145,7 @@ public interface FloatConVar extends ConVar {
          * Set the minimum increment for this {@link FloatConVar}.
          *
          * @param value the minimum increment
-         * @return this
+         * @return a new {@link Options} instance with this option changed
          * @see FloatConVar#step()
          */
         @NotNull
@@ -159,7 +159,7 @@ public interface FloatConVar extends ConVar {
          */
         @NotNull
         static Options create() {
-            return new FloatConVarOptions();
+            return FloatConVarOptions.create();
         }
 
     }
