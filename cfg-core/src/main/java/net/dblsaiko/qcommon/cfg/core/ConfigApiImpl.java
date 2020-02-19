@@ -99,7 +99,7 @@ public class ConfigApiImpl implements ConfigApi.Mutable {
         CvarOptionsImpl opts = ((CvarOptionsImpl) options);
 
         if (opts.getSavedTo() != null) {
-            cvarPersistenceListener.register(name, cvar, opts.getSavedTo());
+            cvarPersistenceListener.register(name, cvar, opts.getSavedTo(), opts.getDesc(), opts.getExtendedDesc());
         }
 
         if (opts.isSync()) {

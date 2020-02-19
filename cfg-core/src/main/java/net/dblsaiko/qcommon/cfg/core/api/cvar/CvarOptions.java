@@ -2,6 +2,7 @@ package net.dblsaiko.qcommon.cfg.core.api.cvar;
 
 import org.jetbrains.annotations.NotNull;
 
+import net.dblsaiko.qcommon.cfg.core.api.CommandDescription;
 import net.dblsaiko.qcommon.cfg.core.cvar.CvarOptionsImpl;
 
 /**
@@ -32,6 +33,30 @@ public interface CvarOptions {
      */
     @NotNull
     CvarOptions save(@NotNull String file);
+
+    /**
+     * Set the description for this cvar. This will show up in help texts and
+     * in generated configuration files.
+     * <p>
+     * The default value is <code>translated("cfg.desc.${cvar}")</code>
+     *
+     * @param description the description to set
+     * @return a new {@link CvarOptions} instance with this option changed
+     */
+    CvarOptions desc(@NotNull CommandDescription description);
+
+    /**
+     * Set the extended description for this cvar. This can span across
+     * multiple lines and should explain what this cvar and the available
+     * values do in detail. It will show up as a comment above configuration
+     * files.
+     * <p>
+     * The default value is <code>translated("cfg.desc.${cvar}.ext")</code>
+     *
+     * @param description the description to set
+     * @return a new {@link CvarOptions} instance with this option changed
+     */
+    CvarOptions extendedDesc(@NotNull CommandDescription description);
 
     /**
      * Create a new {@link CvarOptions} instance with default settings

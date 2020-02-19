@@ -18,11 +18,11 @@ repositories {
 }
 
 dependencies {
-    modRuntime(group: 'net.dblsaiko.qcommon.cfg', name: 'cfg', version: '2.0.2-20') {
+    modRuntime(group: 'net.dblsaiko.qcommon.cfg', name: 'cfg', version: '2.1.0-25') {
         exclude group: 'net.fabricmc.fabric-api'
     }
     
-    modImplementation(group: 'net.dblsaiko.qcommon.cfg', name: 'cfg-core', version: '2.0.2-20') {
+    modImplementation(group: 'net.dblsaiko.qcommon.cfg', name: 'cfg-core', version: '2.1.0-25') {
         exclude group: 'net.fabricmc.fabric-api'
     }
 }
@@ -121,6 +121,26 @@ of that cvar.
 Cvars with the save option will be automatically saved to disk when the game
 shuts down. You can force them to be saved immediately by executing the `save`
 command if you have _cfg-ui_ installed.
+
+#### Comments for Cvars
+
+The easiest way to add a comment above a cvar when saving it to a configuration
+file is through simply setting the language key, the default is
+'cfg.desc.[_cvar name_]' for a simple description and
+'cfg.desc.[_cvar name_].ext' for a more extensive description. For example:
+
+```
+{
+  "cfg.desc.example_cvar": "This value controls how fast entities spawn.",
+  "cfg.desc.example_cvar.ext": "If set to -1, entities will spawn at a continuous rate and will never despawn.\nI'm aware that at this point I'm writing total nonsense, but the extended comment can be composed of multiple lines, and this is just to demonstrate this."
+}
+```
+
+You can also set it to a different value via `CvarOptions`:
+
+```
+api.addConVar("mymod_power_per_tick", IntConVar.owned(200), CvarOptions.create().desc(CommandDescription.literal("A description for mymod_power_per_tick."));
+```
 
 #### Server -> Client Synchronization
 
