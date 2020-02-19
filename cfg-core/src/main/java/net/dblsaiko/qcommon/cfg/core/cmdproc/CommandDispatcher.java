@@ -156,6 +156,7 @@ public class CommandDispatcher implements CommandScheduler {
     private static List<List<String>> tokenize(String source) {
         boolean esc = false;
         boolean quoted = false;
+        boolean commented = false;
         boolean[] forceAdd = arrayOfZ(false);
 
         List<List<String>> commands = new ArrayList<>();
@@ -200,11 +201,14 @@ public class CommandDispatcher implements CommandScheduler {
                     }
                 }
                 esc = false;
+                commented = false;
+            } else if (commented) {
+                continue;
             } else if (esc) {
                 sb.append(c);
                 esc = false;
             } else if (!quoted && c == '/' && i < chars.length - 1 && chars[i + 1] == '/') {
-                break;
+                commented = true;
             } else if (!quoted && c == ';') {
                 nextCommand.run();
             } else if (!quoted && c == ' ') {

@@ -18,11 +18,11 @@ repositories {
 }
 
 dependencies {
-    modRuntime(group: 'net.dblsaiko.qcommon.cfg', name: 'cfg', version: '2.1.0-25') {
+    modRuntime(group: 'net.dblsaiko.qcommon.cfg', name: 'cfg', version: '2.1.1-26') {
         exclude group: 'net.fabricmc.fabric-api'
     }
     
-    modImplementation(group: 'net.dblsaiko.qcommon.cfg', name: 'cfg-core', version: '2.1.0-25') {
+    modImplementation(group: 'net.dblsaiko.qcommon.cfg', name: 'cfg-core', version: '2.1.1-26') {
         exclude group: 'net.fabricmc.fabric-api'
     }
 }
