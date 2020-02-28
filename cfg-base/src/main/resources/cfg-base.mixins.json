@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "net.dblsaiko.qcommon.cfg.base.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "DoubleOptionMixin"
+  ],
+  "server": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

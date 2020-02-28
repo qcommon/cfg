@@ -12,9 +12,16 @@
   "license": "MIT",
   "environment": "*",
   "entrypoints": {
-    "main": ["net.dblsaiko.qcommon.cfg.base.Main"]
+    "main": [
+      "net.dblsaiko.qcommon.cfg.base.Main"
+    ],
+    "client": [
+      "net.dblsaiko.qcommon.cfg.base.client.Main"
+    ]
   },
-  "mixins": [],
+  "mixins": [
+    "cfg-base.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.4.0",
     "fabric": "*",
