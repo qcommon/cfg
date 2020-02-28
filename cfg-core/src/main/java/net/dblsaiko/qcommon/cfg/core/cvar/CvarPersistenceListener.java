@@ -21,7 +21,7 @@ public class CvarPersistenceListener implements PersistenceListener {
     public void write(PersistenceContext ctx) {
         cvars.forEach((k, v) -> ctx.write(k, lp -> {
             boolean lastEntryHasComment = true;
-            for (Pair<String, ConVar> entry : (Iterable<Pair<String, ConVar>>) cvars.get(k).stream().sorted(Comparator.comparing(Pair::getLeft))::iterator) {
+            for (Pair<String, ConVar> entry : (Iterable<Pair<String, ConVar>>) v.stream().sorted(Comparator.comparing(Pair::getLeft))::iterator) {
                 String name = entry.getLeft();
                 ConVar cvar = entry.getRight();
                 String desc = descriptions.get(name).getValue(name);
