@@ -1,4 +1,5 @@
 version = base_version
 
 dependencies {
+    compile project(":cfg-core")
 }

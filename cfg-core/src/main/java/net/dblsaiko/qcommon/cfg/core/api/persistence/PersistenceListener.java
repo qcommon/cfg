@@ -1,28 +1,15 @@
 package net.dblsaiko.qcommon.cfg.core.api.persistence;
 
-import java.util.Set;
-
-import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
-
 /**
  * An interface for handling making configuration persistent.
  */
 public interface PersistenceListener {
 
     /**
-     * Write a script to the current file. This will be called for each entry
-     * returned by {@link PersistenceListener#files()}
+     * Writes to config files via the given {@link PersistenceContext}.
      *
-     * @param file   the current file
-     * @param output the output to write to
+     * @param ctx the persistence context
      */
-    void write(String file, LinePrinter output);
-
-    /**
-     * The set of files to read from and write to.
-     *
-     * @return the set
-     */
-    Set<String> files();
+    void write(PersistenceContext ctx);
 
 }
