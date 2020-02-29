@@ -1,16 +1,5 @@
 package net.dblsaiko.qcommon.cfg.core.cmdproc;
 
-import net.minecraft.server.dedicated.MinecraftDedicatedServer;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.fabric.api.server.PlayerStream;
-import net.fabricmc.loader.api.FabricLoader;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
 import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
@@ -18,6 +7,12 @@ import net.dblsaiko.qcommon.cfg.core.api.cmd.ControlFlow;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 import net.dblsaiko.qcommon.cfg.core.cvar.CvarSyncManager;
 import net.dblsaiko.qcommon.cfg.core.net.CvarUpdatePacket;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.server.PlayerStream;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.server.dedicated.MinecraftDedicatedServer;
+
+import java.util.*;
 
 import static net.dblsaiko.qcommon.cfg.core.util.ArrayUtil.arrayOfZ;
 
@@ -45,6 +40,13 @@ public class CommandDispatcher implements CommandScheduler {
     public void exec(String script, ExecSource source) {
         synchronized (lock) {
             scheduled.add(new ExecState(source, tokenize(script)));
+        }
+    }
+
+    @Override
+    public void exec(List<List<String>> script, ExecSource source) {
+        synchronized (lock) {
+            scheduled.add(new ExecState(source, script));
         }
     }
 
@@ -153,7 +155,7 @@ public class CommandDispatcher implements CommandScheduler {
         }
     }
 
-    private static List<List<String>> tokenize(String source) {
+    public static List<List<String>> tokenize(String source) {
         boolean esc = false;
         boolean quoted = false;
         boolean commented = false;

@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "net.dblsaiko.qcommon.cfg.keys.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "KeyBindingMixin",
+    "KeyboardMixin",
+    "MinecraftClientMixin",
+    "MouseMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

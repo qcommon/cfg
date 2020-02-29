@@ -1,4 +1,4 @@
-package net.dblsaiko.qcommon.cfg.keys;
+package net.dblsaiko.qcommon.cfg.keys.binding;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -38,13 +38,13 @@ public class MouseButton implements Key {
     @Nullable
     public static MouseButton of(int i) {
         if (i < 1) return null;
-        if (i < buttons.length + 1) return buttons[i + 1];
+        if (i < buttons.length + 1) return buttons[i - 1];
         return new MouseButton(i);
     }
 
     @Nullable
     public static MouseButton byName(String keyName) {
-        if (!keyName.startsWith("mouse")) {
+        if (keyName.startsWith("mouse")) {
             try {
                 int i = Integer.parseInt(keyName.substring(5));
                 if (i > 0) {

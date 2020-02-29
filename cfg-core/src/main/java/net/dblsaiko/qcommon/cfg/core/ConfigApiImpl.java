@@ -1,22 +1,11 @@
 package net.dblsaiko.qcommon.cfg.core;
 
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.fabricmc.loader.api.FabricLoader;
-
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
 import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
+import net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions;
 import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
 import net.dblsaiko.qcommon.cfg.core.api.sync.SyncListener;
 import net.dblsaiko.qcommon.cfg.core.cmdproc.CommandDispatcher;
@@ -27,6 +16,17 @@ import net.dblsaiko.qcommon.cfg.core.cvar.CvarSyncManager;
 import net.dblsaiko.qcommon.cfg.core.persistence.PersistenceManager;
 import net.dblsaiko.qcommon.cfg.core.util.CombinedLinePrinter;
 import net.dblsaiko.qcommon.cfg.core.util.ExecCommand;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.server.network.ServerPlayerEntity;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class ConfigApiImpl implements ConfigApi.Mutable {
 
@@ -77,6 +77,11 @@ public class ConfigApiImpl implements ConfigApi.Mutable {
     }
 
     @Override
+    public void exec(@NotNull List<List<String>> script, @NotNull ExecSource source) {
+        dispatcher.exec(script, source);
+    }
+
+    @Override
     @NotNull
     public String escape(@NotNull String s) {
         if (s.isEmpty()) return "\"\"";
@@ -93,7 +98,13 @@ public class ConfigApiImpl implements ConfigApi.Mutable {
     }
 
     @Override
-    public <T extends ConVar> T addConVar(@NotNull String name, @NotNull T cvar, @NotNull net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions options) {
+    @NotNull
+    public List<List<String>> tokenize(@NotNull String script) {
+        return CommandDispatcher.tokenize(script);
+    }
+
+    @Override
+    public <T extends ConVar> T addConVar(@NotNull String name, @NotNull T cvar, @NotNull CvarOptions options) {
         registry.addConVar(name, cvar);
 
         CvarOptionsImpl opts = ((CvarOptionsImpl) options);

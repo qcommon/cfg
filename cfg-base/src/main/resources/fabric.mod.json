@@ -1,10 +1,12 @@
 {
   "schemaVersion": 1,
   "id": "qcommon-cfg-base",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "name": "qcommon-cfg-base",
   "description": "Base functionality for qcommon-cfg: Game hooks and RCON client",
-  "authors": ["2xsaiko"],
+  "authors": [
+    "2xsaiko"
+  ],
   "contact": {
     "homepage": "https://github.com/qcommon/cfg",
     "sources": "https://github.com/qcommon/cfg"

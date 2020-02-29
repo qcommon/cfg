@@ -18,12 +18,15 @@
       "net.dblsaiko.qcommon.cfg.keys.Main"
     ]
   },
-  "mixins": [],
+  "mixins": [
+    "cfg-keys.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=0.4.0",
     "fabric": "*",
-    "qcommon-cfg-core": ">=2.0.0",
-    "qcommon-cfg-ui": ">=2.0.0"
+    "qcommon-cfg-core": ">=3.1.0",
+    "qcommon-cfg-ui": ">=2.0.1",
+    "qcommon-cfg-base": ">=2.1.0"
   },
   "custom": {
     "modmenu:api": true,

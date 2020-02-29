@@ -1,4 +1,4 @@
-package net.dblsaiko.qcommon.cfg.keys;
+package net.dblsaiko.qcommon.cfg.keys.binding;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -56,12 +56,12 @@ public enum KeyboardKey implements Key {
     BACKSLASH(92, "\\"),
     RIGHT_BRACKET(93, "]"),
     GRAVE_ACCENT(96, "`"),
-    WORLD_1(161, "WORLD_1"),
-    WORLD_2(162, "WORLD_2"),
-    ESCAPE(256, "escape"),
+    WORLD_1(161, "world_1"),
+    WORLD_2(162, "world_2"),
+    ESCAPE(256, "esc"),
     ENTER(257, "enter"),
     TAB(258, "tab"),
-    BACKSPACE(259, "backspace"),
+    BACKSPACE(259, "back"),
     INSERT(260, "insert"),
     DELETE(261, "delete"),
     RIGHT(262, "right"),

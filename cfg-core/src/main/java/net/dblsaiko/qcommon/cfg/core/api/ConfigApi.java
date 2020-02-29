@@ -1,14 +1,15 @@
 package net.dblsaiko.qcommon.cfg.core.api;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import net.dblsaiko.qcommon.cfg.core.ConfigApiImpl;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions;
 import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
 import net.dblsaiko.qcommon.cfg.core.api.sync.SyncListener;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 /**
  * The central API for qcommon-cfg.
@@ -62,6 +63,15 @@ public interface ConfigApi {
     void exec(@NotNull String script, @NotNull ExecSource source);
 
     /**
+     * Schedule an already parsed script for execution. The script will be
+     * executed on the next tick.
+     *
+     * @param script the script to execute
+     * @param source the source this script should be executed from
+     */
+    void exec(@NotNull List<List<String>> script, @NotNull ExecSource source);
+
+    /**
      * Escapes a string so that when parsed, it evaluates to the original string.
      *
      * @param s the string to escape
@@ -69,6 +79,16 @@ public interface ConfigApi {
      */
     @NotNull
     String escape(@NotNull String s);
+
+    /**
+     * Tokenize a script into a list of commands, where each command is a list
+     * of arguments (first element is the actual command name itself)
+     *
+     * @param script the script to tokenize
+     * @return the tokenized script
+     */
+    @NotNull
+    List<List<String>> tokenize(@NotNull String script);
 
     /**
      * Mutable extension of {@link ConfigApi}, for registration.

@@ -1,4 +1,4 @@
-package net.dblsaiko.qcommon.cfg.keys;
+package net.dblsaiko.qcommon.cfg.keys.binding;
 
 import org.jetbrains.annotations.Nullable;
 
