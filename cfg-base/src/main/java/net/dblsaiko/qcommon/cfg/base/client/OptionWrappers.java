@@ -40,7 +40,7 @@ public class OptionWrappers {
         wrapOption("cl_mwheelspeed", Option.MOUSE_WHEEL_SENSITIVITY, api, mc, d);
         wrapOption("cl_rawmouse", Option.RAW_MOUSE_INPUT, api, mc, d);
         wrapOption("r_chunkdist", Option.RENDER_DISTANCE, api, mc, d);
-        wrapOption("cl_mousespeed", Option.SENSITIVITY, api, mc, d);
+        wrapOption("cl_lookspeed", Option.SENSITIVITY, api, mc, d);
         wrapOption("cl_text_label_opacity", Option.TEXT_BACKGROUND_OPACITY, api, mc, d);
         wrapOption("r_ao", Option.AO, AoOption::getOption, $ -> $.ao, api, mc, d);
         wrapOption("cl_attack_indicator_mode", Option.ATTACK_INDICATOR, AttackIndicator::byId, $ -> $.attackIndicator, api, mc, d);
@@ -62,7 +62,7 @@ public class OptionWrappers {
         wrapOption("r_vsync", Option.VSYNC, api, mc, d);
         wrapOption("r_entityshadows", Option.ENTITY_SHADOWS, api, mc, d);
         wrapOption("cl_always_use_unicode_font", Option.FORCE_UNICODE_FONT, api, mc, d);
-        wrapOption("cl_invert_mouse", Option.INVERT_MOUSE, api, mc, d);
+        wrapOption("cl_invert_y", Option.INVERT_MOUSE, api, mc, d);
         wrapOption("cl_show_realms_notifications", Option.REALMS_NOTIFICATIONS, api, mc, d);
         wrapOption("cl_reduced_debug_info", Option.REDUCED_DEBUG_INFO, api, mc, d);
         wrapOption("cl_subtitles", Option.SUBTITLES, api, mc, d);

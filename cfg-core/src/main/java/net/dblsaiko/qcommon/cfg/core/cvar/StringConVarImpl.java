@@ -1,10 +1,10 @@
 package net.dblsaiko.qcommon.cfg.core.cvar;
 
-import org.jetbrains.annotations.NotNull;
-
+import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.StringConVar;
 import net.dblsaiko.qcommon.cfg.core.api.ref.Ref;
+import org.jetbrains.annotations.NotNull;
 
 import static net.dblsaiko.qcommon.cfg.core.util.ArrayUtil.arrayOf;
 
@@ -36,6 +36,10 @@ public abstract class StringConVarImpl implements StringConVar {
     @Override
     public void printState(@NotNull String name, @NotNull LinePrinter output) {
         output.printf("%s = '%s' (default '%s')", name, this.get(), this.defaultValue);
+        String desc = ConfigApi.getInstance().getDescription(name);
+        if (desc != null && !desc.isEmpty()) output.print(desc);
+        String longDesc = ConfigApi.getInstance().getLongDescription(name);
+        if (longDesc != null && !longDesc.isEmpty()) output.print(longDesc);
     }
 
     public static class Owned extends StringConVarImpl {

@@ -106,6 +106,7 @@ public class VanillaKeyWrapper {
         });
         api.addCommand("next_slot", (args, src, output, cf) -> scroll(-1));
         api.addCommand("prev_slot", (args, src, output, cf) -> scroll(1));
+        api.addCommand("clear_chat", (args, src, output, cf) -> client.inGameHud.getChatHud().clear(false));
     }
 
     private void scroll(int i) {

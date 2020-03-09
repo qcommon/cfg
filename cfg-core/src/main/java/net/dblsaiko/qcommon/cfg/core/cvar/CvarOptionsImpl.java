@@ -1,15 +1,12 @@
 package net.dblsaiko.qcommon.cfg.core.cvar;
 
+import net.dblsaiko.qcommon.cfg.core.api.CommandDescription;
+import net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions;
+import net.dblsaiko.qcommon.cfg.core.cmd.CommandOptionsImpl;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import net.dblsaiko.qcommon.cfg.core.api.CommandDescription;
-import net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions;
-
 public class CvarOptionsImpl implements CvarOptions {
-
-    public static final CommandDescription DEFAULT_DESC = CommandDescription.commandBased(name -> String.format("cfg.desc.%s", name));
-    public static final CommandDescription DEFAULT_EXT_DESC = CommandDescription.commandBased(name -> String.format("cfg.desc.%s.ext", name));
 
     private final boolean sync;
     private final String savedTo;
@@ -63,7 +60,7 @@ public class CvarOptionsImpl implements CvarOptions {
     }
 
     public static CvarOptionsImpl create() {
-        return new CvarOptionsImpl(false, null, DEFAULT_DESC, DEFAULT_EXT_DESC);
+        return new CvarOptionsImpl(false, null, CommandOptionsImpl.DEFAULT_DESC, CommandOptionsImpl.DEFAULT_EXT_DESC);
     }
 
 }

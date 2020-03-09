@@ -1,13 +1,16 @@
 package net.dblsaiko.qcommon.cfg.core;
 
+import net.dblsaiko.qcommon.cfg.core.api.CommandDescription;
 import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
 import net.dblsaiko.qcommon.cfg.core.api.ExecSource;
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
+import net.dblsaiko.qcommon.cfg.core.api.cmd.CommandOptions;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions;
 import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
 import net.dblsaiko.qcommon.cfg.core.api.sync.SyncListener;
+import net.dblsaiko.qcommon.cfg.core.cmd.CommandOptionsImpl;
 import net.dblsaiko.qcommon.cfg.core.cmdproc.CommandDispatcher;
 import net.dblsaiko.qcommon.cfg.core.cmdproc.CommandRegistry;
 import net.dblsaiko.qcommon.cfg.core.cvar.CvarOptionsImpl;
@@ -23,10 +26,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ConfigApiImpl implements ConfigApi.Mutable {
 
@@ -49,6 +49,9 @@ public class ConfigApiImpl implements ConfigApi.Mutable {
     private final CvarPersistenceListener cvarPersistenceListener = new CvarPersistenceListener();
     private final PersistenceManager persistenceManager = new PersistenceManager(dispatcher);
     private final Set<SyncListener> syncListeners = new HashSet<>();
+    private final Map<String, CommandDescription> descriptions = new HashMap<>();
+    private final Map<String, CommandDescription> longDescriptions = new HashMap<>();
+
 
     private ConfigApiImpl() {
         output.addListener(logger::info);
@@ -72,6 +75,16 @@ public class ConfigApiImpl implements ConfigApi.Mutable {
     }
 
     @Override
+    public Map<String, ConVar> getConVars() {
+        return registry.getCvars();
+    }
+
+    @Override
+    public Map<String, Command> getCommands() {
+        return registry.getCommands();
+    }
+
+    @Override
     public void exec(@NotNull String script, @NotNull ExecSource source) {
         dispatcher.exec(script, source);
     }
@@ -79,6 +92,20 @@ public class ConfigApiImpl implements ConfigApi.Mutable {
     @Override
     public void exec(@NotNull List<List<String>> script, @NotNull ExecSource source) {
         dispatcher.exec(script, source);
+    }
+
+    @Override
+    public String getDescription(@NotNull String command) {
+        CommandDescription desc = descriptions.get(command);
+        if (desc == null) return null;
+        return desc.getValue(command);
+    }
+
+    @Override
+    public String getLongDescription(@NotNull String command) {
+        CommandDescription desc = longDescriptions.get(command);
+        if (desc == null) return null;
+        return desc.getValue(command);
     }
 
     @Override
@@ -105,13 +132,16 @@ public class ConfigApiImpl implements ConfigApi.Mutable {
 
     @Override
     public <T extends ConVar> T addConVar(@NotNull String name, @NotNull T cvar, @NotNull CvarOptions options) {
-        registry.addConVar(name, cvar);
-
         CvarOptionsImpl opts = ((CvarOptionsImpl) options);
 
+        registry.addConVar(name, cvar);
+
         if (opts.getSavedTo() != null) {
-            cvarPersistenceListener.register(name, cvar, opts.getSavedTo(), opts.getDesc(), opts.getExtendedDesc());
+            cvarPersistenceListener.register(name, cvar, opts.getSavedTo());
         }
+
+        descriptions.put(name, opts.getDesc());
+        longDescriptions.put(name, opts.getExtendedDesc());
 
         if (opts.isSync()) {
             cvarSyncManager.trackCvar(name);
@@ -121,8 +151,14 @@ public class ConfigApiImpl implements ConfigApi.Mutable {
     }
 
     @Override
-    public <T extends Command> T addCommand(@NotNull String name, @NotNull T command) {
+    public <T extends Command> T addCommand(@NotNull String name, @NotNull T command, @NotNull CommandOptions options) {
+        CommandOptionsImpl opts = ((CommandOptionsImpl) options);
+
         registry.addCommand(name, command);
+
+        descriptions.put(name, opts.getDesc());
+        longDescriptions.put(name, opts.getExtendedDesc());
+
         return command;
     }
 

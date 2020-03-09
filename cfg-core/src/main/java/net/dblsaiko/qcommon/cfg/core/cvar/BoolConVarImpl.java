@@ -1,5 +1,6 @@
 package net.dblsaiko.qcommon.cfg.core.cvar;
 
+import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.BoolConVar;
 import net.dblsaiko.qcommon.cfg.core.api.ref.BoolRef;
@@ -80,6 +81,10 @@ public abstract class BoolConVarImpl implements BoolConVar {
         StringBuilder sb = new StringBuilder();
         sb.append(name).append(" = ").append(toString(this.get())).append(" (default ").append(toString(this.defaultValue)).append(")");
         output.print(sb.toString());
+        String desc = ConfigApi.getInstance().getDescription(name);
+        if (desc != null && !desc.isEmpty()) output.print(desc);
+        String longDesc = ConfigApi.getInstance().getLongDescription(name);
+        if (longDesc != null && !longDesc.isEmpty()) output.print(longDesc);
     }
 
     public static class Owned extends BoolConVarImpl {

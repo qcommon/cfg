@@ -1,11 +1,11 @@
 package net.dblsaiko.qcommon.cfg.core.cvar;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
+import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
 import net.dblsaiko.qcommon.cfg.core.api.LinePrinter;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.IntConVar;
 import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static net.dblsaiko.qcommon.cfg.core.util.ArrayUtil.arrayOf;
 
@@ -55,6 +55,10 @@ public abstract class IntConVarImpl implements IntConVar {
         if (max != null) sb.append(", max ").append(max);
         sb.append(")");
         output.print(sb.toString());
+        String desc = ConfigApi.getInstance().getDescription(name);
+        if (desc != null && !desc.isEmpty()) output.print(desc);
+        String longDesc = ConfigApi.getInstance().getLongDescription(name);
+        if (longDesc != null && !longDesc.isEmpty()) output.print(longDesc);
     }
 
     protected int clampValue(int value) {

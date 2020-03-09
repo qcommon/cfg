@@ -2,6 +2,7 @@ package net.dblsaiko.qcommon.cfg.core.api;
 
 import net.dblsaiko.qcommon.cfg.core.ConfigApiImpl;
 import net.dblsaiko.qcommon.cfg.core.api.cmd.Command;
+import net.dblsaiko.qcommon.cfg.core.api.cmd.CommandOptions;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.CvarOptions;
 import net.dblsaiko.qcommon.cfg.core.api.persistence.PersistenceListener;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * The central API for qcommon-cfg.
@@ -55,6 +57,20 @@ public interface ConfigApi {
     Command getCommand(@NotNull String name);
 
     /**
+     * Get a map containing all registered cvars.
+     *
+     * @return the map of all cvars
+     */
+    Map<String, ConVar> getConVars();
+
+    /**
+     * Get a map containing all registered commands.
+     *
+     * @return the map of all commands
+     */
+    Map<String, Command> getCommands();
+
+    /**
      * Schedule a script for execution. The script will be executed on the next tick.
      *
      * @param script the script to execute
@@ -70,6 +86,26 @@ public interface ConfigApi {
      * @param source the source this script should be executed from
      */
     void exec(@NotNull List<List<String>> script, @NotNull ExecSource source);
+
+    /**
+     * Get the description for the given command or cvar name
+     *
+     * @param command the command or cvar name
+     * @return the description, or <code>null</code> if no command or cvar by that name exists
+     * @see CvarOptions#desc(CommandDescription)
+     */
+    @Nullable
+    String getDescription(@NotNull String command);
+
+    /**
+     * Get the long description for the given command or cvar name
+     *
+     * @param command the command or cvar name
+     * @return the long description, or <code>null</code> if no command or cvar by that name exists
+     * @see CvarOptions#extendedDesc(CommandDescription)
+     */
+    @Nullable
+    String getLongDescription(@NotNull String command);
 
     /**
      * Escapes a string so that when parsed, it evaluates to the original string.
@@ -129,7 +165,20 @@ public interface ConfigApi {
          * @param <T>     the command type
          * @return the added command
          */
-        <T extends Command> T addCommand(@NotNull String name, @NotNull T command);
+        default <T extends Command> T addCommand(@NotNull String name, @NotNull T command) {
+            return addCommand(name, command, CommandOptions.create());
+        }
+
+        /**
+         * Add a new command.
+         *
+         * @param name    the name of the command to add
+         * @param command the command to add
+         * @param options the options to add this command with
+         * @param <T>     the command type
+         * @return the added command
+         */
+        <T extends Command> T addCommand(@NotNull String name, @NotNull T command, @NotNull CommandOptions options);
 
         /**
          * Register a {@link LinePrinter} that all commands print their output
@@ -149,7 +198,7 @@ public interface ConfigApi {
         /**
          * Register a {@link SyncListener}.
          *
-         * @param handler the sync listener to register
+         * @param listener the sync listener to register
          */
         void registerSyncListener(@NotNull SyncListener listener);
 
