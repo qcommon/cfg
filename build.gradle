@@ -20,9 +20,9 @@ allprojects {
     dependencies {
         minecraft group: 'com.mojang', name: 'minecraft', version: minecraft_version
         mappings group: 'net.fabricmc', name: 'yarn', version: mappings_version, classifier: 'v2'
-        modCompile group: 'net.fabricmc', name: 'fabric-loader', version: loader_version
+        modImplementation group: 'net.fabricmc', name: 'fabric-loader', version: loader_version
 
-        modCompile group: 'net.fabricmc.fabric-api', name: 'fabric-api', version: fabric_api_version
+        modImplementation group: 'net.fabricmc.fabric-api', name: 'fabric-api', version: fabric_api_version
 
         implementation group: 'org.jetbrains', name: 'annotations', version: '18.0.0'
     }
@@ -126,8 +126,10 @@ repositories {
 }
 
 dependencies {
-    modRuntime group: 'net.dblsaiko', name: 'winwonders', version: '0.1.1-3'
-    modRuntime group: 'io.github.prospector', name: 'modmenu', version: '1.8.5+build.23'
+    modRuntime group: 'net.dblsaiko', name: 'winwonders', version: '0.1.2-4'
+    modRuntime(group: 'io.github.prospector', name: 'modmenu', version: '1.8.5+build.23') {
+        exclude module: 'fabric-api'
+    }
 
     afterEvaluate {
         subprojects.each {

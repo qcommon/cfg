@@ -1,5 +1,11 @@
 package net.dblsaiko.qcommon.cfg.core.net;
 
+import io.netty.buffer.Unpooled;
+import net.dblsaiko.qcommon.cfg.core.ConfigApiImpl;
+import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
+import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.fabricmc.fabric.api.network.PacketContext;
+import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -7,18 +13,10 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
-import net.fabricmc.fabric.api.network.PacketContext;
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
-import io.netty.buffer.Unpooled;
-
-import net.dblsaiko.qcommon.cfg.core.ConfigApiImpl;
-import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 
 public class CvarUpdatePacket {
 
@@ -51,7 +49,7 @@ public class CvarUpdatePacket {
                         conVar.setFromStrings(value);
 
                         if (!isSilentUpdate && player != null) {
-                            player.addChatMessage(new TranslatableText("qcommon-cfg.cvar_changed", key, oldValue, conVar.getStringRepr()).formatted(Formatting.GOLD), false);
+                            player.addMessage(new TranslatableText("qcommon-cfg.cvar_changed", key, oldValue, conVar.getStringRepr()).formatted(Formatting.GOLD), false);
                         }
                     } else {
                         ConfigApiImpl.logger.warn("Server tried setting non-sync cvar '{}'", key);

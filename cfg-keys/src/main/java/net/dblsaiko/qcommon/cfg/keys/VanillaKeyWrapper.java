@@ -99,10 +99,10 @@ public class VanillaKeyWrapper {
             if (client.player != null) client.player.sendChatMessage(String.join(" ", args));
         });
         api.addCommand("echo_chat", (args, src, output, cf) -> {
-            if (client.player != null) client.player.addChatMessage(new LiteralText(String.join(" ", args)), false);
+            if (client.player != null) client.player.addMessage(new LiteralText(String.join(" ", args)), false);
         });
         api.addCommand("info", (args, src, output, cf) -> {
-            if (client.player != null) client.player.addChatMessage(new LiteralText(String.join(" ", args)), true);
+            if (client.player != null) client.player.addMessage(new LiteralText(String.join(" ", args)), true);
         });
         api.addCommand("next_slot", (args, src, output, cf) -> scroll(-1));
         api.addCommand("prev_slot", (args, src, output, cf) -> scroll(1));

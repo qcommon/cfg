@@ -1,10 +1,12 @@
 {
   "schemaVersion": 1,
   "id": "qcommon-cfg",
-  "version": "2.0.4",
+  "version": "3.1.1",
   "name": "qcommon-cfg",
   "description": "Configuration, debugging and utility console.",
-  "authors": ["2xsaiko"],
+  "authors": [
+    "2xsaiko"
+  ],
   "contact": {
     "homepage": "https://github.com/qcommon/cfg",
     "sources": "https://github.com/qcommon/cfg"
