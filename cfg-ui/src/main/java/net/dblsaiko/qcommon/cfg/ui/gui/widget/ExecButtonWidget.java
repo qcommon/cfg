@@ -1,6 +1,7 @@
 package net.dblsaiko.qcommon.cfg.ui.gui.widget;
 
 import net.minecraft.client.gui.widget.AbstractPressableButtonWidget;
+import net.minecraft.text.Text;
 
 import java.util.function.Supplier;
 
@@ -11,12 +12,12 @@ public class ExecButtonWidget extends AbstractPressableButtonWidget {
 
     private final Supplier<String> scriptSupplier;
 
-    public ExecButtonWidget(int x, int y, int width, int height, String text, Supplier<String> scriptSupplier) {
+    public ExecButtonWidget(int x, int y, int width, int height, Text text, Supplier<String> scriptSupplier) {
         super(x, y, width, height, text);
         this.scriptSupplier = scriptSupplier;
     }
 
-    public ExecButtonWidget(int x, int y, int width, int height, String text, String script) {
+    public ExecButtonWidget(int x, int y, int width, int height, Text text, String script) {
         this(x, y, width, height, text, () -> script);
     }
 

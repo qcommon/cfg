@@ -1,7 +1,5 @@
 package net.dblsaiko.qcommon.cfg.keys;
 
-import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
-import net.dblsaiko.qcommon.cfg.keys.ext.KeyBindingExt;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
@@ -13,6 +11,9 @@ import net.minecraft.util.math.MathHelper;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
+import net.dblsaiko.qcommon.cfg.keys.ext.KeyBindingExt;
 
 public class VanillaKeyWrapper {
 
@@ -47,7 +48,7 @@ public class VanillaKeyWrapper {
         api.addCommand("kw_list", (args, src, output, cf) -> {
             output.print(
                 Arrays.stream(MinecraftClient.getInstance().options.keysAll)
-                    .map($ -> $.getId().substring(4))
+                    .map(kb -> kb.getTranslationKey().substring(4))
                     .collect(Collectors.joining("', '", "'", "'"))
             );
         });
@@ -99,10 +100,10 @@ public class VanillaKeyWrapper {
             if (client.player != null) client.player.sendChatMessage(String.join(" ", args));
         });
         api.addCommand("echo_chat", (args, src, output, cf) -> {
-            if (client.player != null) client.player.addMessage(new LiteralText(String.join(" ", args)), false);
+            if (client.player != null) client.player.sendMessage(new LiteralText(String.join(" ", args)), false);
         });
         api.addCommand("info", (args, src, output, cf) -> {
-            if (client.player != null) client.player.addMessage(new LiteralText(String.join(" ", args)), true);
+            if (client.player != null) client.player.sendMessage(new LiteralText(String.join(" ", args)), true);
         });
         api.addCommand("next_slot", (args, src, output, cf) -> scroll(-1));
         api.addCommand("prev_slot", (args, src, output, cf) -> scroll(1));
@@ -140,7 +141,7 @@ public class VanillaKeyWrapper {
 
     private KeyBinding findBinding(String name) {
         List<KeyBinding> list = Arrays.stream(MinecraftClient.getInstance().options.keysAll)
-            .filter($ -> $.getId().equals(String.format("key.%s", name)))
+            .filter($ -> $.getTranslationKey().equals(String.format("key.%s", name)))
             .collect(Collectors.toList());
         return list.size() == 1 ? list.get(0) : null;
     }

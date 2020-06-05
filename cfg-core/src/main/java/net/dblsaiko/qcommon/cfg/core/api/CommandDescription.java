@@ -33,7 +33,7 @@ public interface CommandDescription {
      */
     static CommandDescription translated(@NotNull String translationKey) {
         return _name -> {
-            String s = Language.getInstance().translate(translationKey);
+            String s = Language.getInstance().get(translationKey);
             // this is on purpose! translate() will return the same object if
             // it could not find a translation.
             // noinspection StringEquality
@@ -52,7 +52,7 @@ public interface CommandDescription {
     static CommandDescription commandBased(@NotNull Function<String, String> keyGetter) {
         return name -> {
             String text = keyGetter.apply(name);
-            String s = Language.getInstance().translate(text);
+            String s = Language.getInstance().get(text);
             // this is on purpose! translate() will return the same object if
             // it could not find a translation.
             // noinspection StringEquality

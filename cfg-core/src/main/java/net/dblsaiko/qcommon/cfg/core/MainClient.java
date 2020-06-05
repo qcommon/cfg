@@ -1,12 +1,13 @@
 package net.dblsaiko.qcommon.cfg.core;
 
-import net.dblsaiko.qcommon.cfg.core.net.CvarUpdatePacket;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.event.client.ClientTickCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.profiler.Profiler;
+import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.event.client.ClientTickCallback;
+
+import net.dblsaiko.qcommon.cfg.core.net.CvarUpdatePacket;
 
 public class MainClient implements ClientModInitializer {
 
@@ -24,7 +25,7 @@ public class MainClient implements ClientModInitializer {
         ConfigApiImpl.INSTANCE.registerOutput(s -> {
             ClientPlayerEntity player = MinecraftClient.getInstance().player;
             if (player != null) {
-                player.addMessage(new LiteralText(s), false);
+                player.sendMessage(new LiteralText(s), false);
             }
         });
     }

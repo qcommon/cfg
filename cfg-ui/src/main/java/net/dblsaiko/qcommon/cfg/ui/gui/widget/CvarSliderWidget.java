@@ -1,12 +1,14 @@
 package net.dblsaiko.qcommon.cfg.ui.gui.widget;
 
-import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
-import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 import net.minecraft.client.gui.widget.SliderWidget;
+import net.minecraft.text.LiteralText;
 
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
+import net.dblsaiko.qcommon.cfg.core.api.cvar.ConVar;
 
 import static net.dblsaiko.qcommon.cfg.core.util.ArrayUtil.arrayOf;
 
@@ -18,7 +20,7 @@ public class CvarSliderWidget extends SliderWidget {
     private final float max;
 
     protected CvarSliderWidget(String cvar, int x, int y, int width, int height, float min, float max) {
-        super(x, y, width, height, "", getCvarValue(cvar));
+        super(x, y, width, height, LiteralText.EMPTY, getCvarValue(cvar));
         this.cvar = Objects.requireNonNull(ConfigApi.getInstance().getConVar(cvar));
         this.name = cvar;
         this.min = min;
@@ -27,11 +29,10 @@ public class CvarSliderWidget extends SliderWidget {
 
     @Override
     protected void updateMessage() {
-        this.setMessage(String.format("%s: %s", name,
+        this.setMessage(new LiteralText(String.format("%s: %s", name,
             Arrays.stream(cvar.getAsStrings())
                 .map(s -> ConfigApi.getInstance().escape(s))
-                .collect(Collectors.joining(" ")))
-        );
+                .collect(Collectors.joining(" ")))));
     }
 
     @Override

@@ -1,15 +1,17 @@
 package net.dblsaiko.qcommon.cfg.base.client;
 
-import net.dblsaiko.qcommon.cfg.base.ext.DoubleOptionExt;
-import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
-import net.dblsaiko.qcommon.cfg.core.api.cvar.BoolConVar;
-import net.dblsaiko.qcommon.cfg.core.api.cvar.FloatConVar;
-import net.dblsaiko.qcommon.cfg.core.api.cvar.IntConVar;
-import net.dblsaiko.qcommon.cfg.core.api.ref.BoolRef;
-import net.dblsaiko.qcommon.cfg.core.api.ref.FloatRef;
-import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
+import net.minecraft.class_5365;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.options.*;
+import net.minecraft.client.options.AoOption;
+import net.minecraft.client.options.AttackIndicator;
+import net.minecraft.client.options.BooleanOption;
+import net.minecraft.client.options.CloudRenderMode;
+import net.minecraft.client.options.CyclingOption;
+import net.minecraft.client.options.DoubleOption;
+import net.minecraft.client.options.GameOptions;
+import net.minecraft.client.options.NarratorOption;
+import net.minecraft.client.options.Option;
+import net.minecraft.client.options.ParticlesOption;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.util.Arm;
 
@@ -21,6 +23,15 @@ import java.util.function.IntFunction;
 import java.util.function.IntSupplier;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import net.dblsaiko.qcommon.cfg.base.ext.DoubleOptionExt;
+import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
+import net.dblsaiko.qcommon.cfg.core.api.cvar.BoolConVar;
+import net.dblsaiko.qcommon.cfg.core.api.cvar.FloatConVar;
+import net.dblsaiko.qcommon.cfg.core.api.cvar.IntConVar;
+import net.dblsaiko.qcommon.cfg.core.api.ref.BoolRef;
+import net.dblsaiko.qcommon.cfg.core.api.ref.FloatRef;
+import net.dblsaiko.qcommon.cfg.core.api.ref.IntRef;
 
 public class OptionWrappers {
 
@@ -44,7 +55,7 @@ public class OptionWrappers {
         wrapOption("cl_text_label_opacity", Option.TEXT_BACKGROUND_OPACITY, api, mc, d);
         wrapOption("r_ao", Option.AO, AoOption::getOption, $ -> $.ao, api, mc, d);
         wrapOption("cl_attack_indicator_mode", Option.ATTACK_INDICATOR, AttackIndicator::byId, $ -> $.attackIndicator, api, mc, d);
-        wrapOption("r_detail", Option.GRAPHICS, $ -> $ % 2 == 1, $ -> $.fancyGraphics, api, mc, d);
+        wrapOption("r_detail", Option.GRAPHICS, class_5365::method_29592, $ -> $.field_25444, api, mc, d);
         api.addConVar("cl_gui_scale", IntConVar.wrap(IntRef.from(() -> mc.options.guiScale, value -> mc.options.guiScale = value), 0, IntConVar.Options.create().min(0)));
         api.addConVar("cl_main_hand", IntConVar.wrap(IntRef.from(() -> mc.options.mainArm.ordinal(), value -> mc.options.mainArm = Arm.values()[value % 2]), 1, IntConVar.Options.create().min(0).max(1)));
         if (NarratorManager.INSTANCE.isActive()) {
