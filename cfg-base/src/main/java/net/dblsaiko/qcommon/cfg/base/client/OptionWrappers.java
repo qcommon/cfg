@@ -1,29 +1,26 @@
 package net.dblsaiko.qcommon.cfg.base.client;
 
-import net.minecraft.class_5365;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.options.AoOption;
-import net.minecraft.client.options.AttackIndicator;
-import net.minecraft.client.options.BooleanOption;
-import net.minecraft.client.options.CloudRenderMode;
-import net.minecraft.client.options.CyclingOption;
-import net.minecraft.client.options.DoubleOption;
-import net.minecraft.client.options.GameOptions;
-import net.minecraft.client.options.NarratorOption;
-import net.minecraft.client.options.Option;
-import net.minecraft.client.options.ParticlesOption;
+import net.minecraft.client.option.AoMode;
+import net.minecraft.client.option.AttackIndicator;
+import net.minecraft.client.option.CloudRenderMode;
+import net.minecraft.client.option.CyclingOption;
+import net.minecraft.client.option.DoubleOption;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.option.GraphicsMode;
+import net.minecraft.client.option.NarratorMode;
+import net.minecraft.client.option.Option;
+import net.minecraft.client.option.ParticlesMode;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.util.Arm;
 
 import java.io.File;
-import java.util.List;
+import java.util.Arrays;
 import java.util.UUID;
 import java.util.function.Function;
-import java.util.function.IntFunction;
 import java.util.function.IntSupplier;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
+import net.dblsaiko.qcommon.cfg.base.ext.CyclingOptionExt;
 import net.dblsaiko.qcommon.cfg.base.ext.DoubleOptionExt;
 import net.dblsaiko.qcommon.cfg.core.api.ConfigApi;
 import net.dblsaiko.qcommon.cfg.core.api.cvar.BoolConVar;
@@ -53,16 +50,16 @@ public class OptionWrappers {
         wrapOption("r_chunkdist", Option.RENDER_DISTANCE, api, mc, d);
         wrapOption("cl_lookspeed", Option.SENSITIVITY, api, mc, d);
         wrapOption("cl_text_label_opacity", Option.TEXT_BACKGROUND_OPACITY, api, mc, d);
-        wrapOption("r_ao", Option.AO, AoOption::getOption, $ -> $.ao, api, mc, d);
-        wrapOption("cl_attack_indicator_mode", Option.ATTACK_INDICATOR, AttackIndicator::byId, $ -> $.attackIndicator, api, mc, d);
-        wrapOption("r_detail", Option.GRAPHICS, class_5365::method_29592, $ -> $.field_25444, api, mc, d);
+        wrapOption("r_ao", Option.AO, AoMode.values(), $ -> $.ao, api, mc, d);
+        wrapOption("cl_attack_indicator_mode", Option.ATTACK_INDICATOR, AttackIndicator.values(), $ -> $.attackIndicator, api, mc, d);
+        wrapOption("r_detail", Option.GRAPHICS, GraphicsMode.values(), $ -> $.graphicsMode, api, mc, d);
         api.addConVar("cl_gui_scale", IntConVar.wrap(IntRef.from(() -> mc.options.guiScale, value -> mc.options.guiScale = value), 0, IntConVar.Options.create().min(0)));
         api.addConVar("cl_main_hand", IntConVar.wrap(IntRef.from(() -> mc.options.mainArm.ordinal(), value -> mc.options.mainArm = Arm.values()[value % 2]), 1, IntConVar.Options.create().min(0).max(1)));
         if (NarratorManager.INSTANCE.isActive()) {
-            wrapOption("cl_narrator", Option.NARRATOR, NarratorOption::byId, $ -> $.narrator, api, mc, d);
+            wrapOption("cl_narrator", Option.NARRATOR, NarratorMode.values(), $ -> $.narrator, api, mc, d);
         }
-        wrapOption("cl_particle_detail", Option.PARTICLES, ParticlesOption::byId, $ -> $.particles, api, mc, d);
-        wrapOption("cl_clouds_detail", Option.CLOUDS, CloudRenderMode::getOption, $ -> $.cloudRenderMode, api, mc, d);
+        wrapOption("cl_particle_detail", Option.PARTICLES, ParticlesMode.values(), $ -> $.particles, api, mc, d);
+        wrapOption("cl_clouds_detail", Option.CLOUDS, CloudRenderMode.values(), $ -> $.cloudRenderMode, api, mc, d);
         api.addConVar("cl_labels_only_chat", BoolConVar.wrap(BoolRef.from(() -> mc.options.backgroundForChatOnly, value -> mc.options.backgroundForChatOnly = value), true));
         wrapOption("cl_autojump", Option.AUTO_JUMP, api, mc, d);
         wrapOption("cl_cmd_autosuggestions", Option.AUTO_SUGGESTIONS, api, mc, d);
@@ -96,23 +93,30 @@ public class OptionWrappers {
         api.addConVar(name, FloatConVar.wrap(FloatRef.from(() -> (float) option.get(mc.options), value -> option.set(mc.options, value)), (float) option.get(d), options));
     }
 
-    private static void wrapOption(String name, BooleanOption option, ConfigApi.Mutable api, MinecraftClient mc, GameOptions d) {
-        api.addConVar(name, BoolConVar.wrap(BoolRef.from(() -> option.get(mc.options), value -> option.set(mc.options, value ? "true" : "false")), option.get(d)));
+    private static void wrapOption(String name, CyclingOption<Boolean> option, ConfigApi.Mutable api, MinecraftClient mc, GameOptions d) {
+        //api.addConVar(name, BoolConVar.wrap(BoolRef.from(() -> option.get(mc.options), value -> option.set(mc.options, value ? "true" : "false")), option.get(d)));
     }
 
-    private static <T> void wrapOption(String name, CyclingOption option, IntFunction<T> byIndex, Function<GameOptions, T> getter, ConfigApi.Mutable api, MinecraftClient mc, GameOptions d) {
-        T first = byIndex.apply(0);
-        int size = 1;
-        while (byIndex.apply(size) != first) size += 1;
-        List<T> values = IntStream.range(0, size).mapToObj(byIndex).collect(Collectors.toList());
+    private static <T> void wrapOption(String name, CyclingOption<T> option, T[] values, Function<GameOptions, T> getter, ConfigApi.Mutable api, MinecraftClient mc, GameOptions d) {
+        CyclingOptionExt<T> optionExt = CyclingOptionExt.from(option);
 
         IntConVar.Options options = IntConVar.Options.create()
             .min(0)
-            .max(size - 1);
+            .max(values.length - 1);
 
-        IntSupplier getter1 = () -> values.indexOf(getter.apply(mc.options));
+        IntSupplier getter1 = () -> Arrays.asList(values).indexOf(getter.apply(mc.options));
 
-        api.addConVar(name, IntConVar.wrap(IntRef.from(getter1, value -> option.cycle(mc.options, values.size() - getter1.getAsInt() + value)), values.indexOf(getter.apply(d)), options));
+        api.addConVar(
+            name,
+            IntConVar.wrap(
+                IntRef.from(
+                    getter1,
+                    value -> optionExt.getSetter().accept(mc.options, option, values[(getter1.getAsInt() + 1) % values.length])
+                ),
+                Arrays.asList(values).indexOf(getter.apply(d)),
+                options
+            )
+        );
     }
 
 }

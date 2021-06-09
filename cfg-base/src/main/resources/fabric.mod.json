@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "qcommon-cfg-base",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "name": "qcommon-cfg-base",
   "description": "Base functionality for qcommon-cfg: Game hooks and RCON client",
   "authors": [
@@ -25,7 +25,7 @@
     "cfg-base.mixins.json"
   ],
   "depends": {
-    "minecraft": "~1.16-pre1",
+    "minecraft": ">=1.17",
     "fabricloader": ">=0.4.0",
     "fabric": "*",
     "qcommon-cfg-core": ">=2.2.0"

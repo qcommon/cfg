@@ -1,7 +1,5 @@
-import static org.gradle.api.JavaVersion.VERSION_1_8
-
 plugins {
-    id 'fabric-loom' version '0.4.24' apply false
+    id 'fabric-loom' version '0.8.17' apply false
 }
 
 version = cfg_version
@@ -11,8 +9,8 @@ allprojects {
     apply plugin: 'fabric-loom'
 
     java {
-        sourceCompatibility = VERSION_1_8
-        targetCompatibility = VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_16
+        targetCompatibility = JavaVersion.VERSION_16
     }
 
     group = 'net.dblsaiko.qcommon.cfg'
@@ -23,8 +21,6 @@ allprojects {
         modImplementation group: 'net.fabricmc', name: 'fabric-loader', version: loader_version
 
         modImplementation group: 'net.fabricmc.fabric-api', name: 'fabric-api', version: fabric_api_version
-
-        implementation group: 'org.jetbrains', name: 'annotations', version: '18.0.0'
     }
 
     configurations {
@@ -42,13 +38,8 @@ allprojects {
         processResources {
             inputs.property 'version', project.version
 
-            from(sourceSets.main.resources.srcDirs) {
-                include 'fabric.mod.json'
-                expand 'version': project.version
-            }
-
-            from(sourceSets.main.resources.srcDirs) {
-                exclude 'fabric.mod.json'
+            filesMatching("fabric.mod.json") {
+                expand "version": project.version
             }
         }
     }
@@ -126,14 +117,14 @@ repositories {
 }
 
 dependencies {
-    modRuntime group: 'net.dblsaiko', name: 'winwonders', version: '0.1.2-4'
-    modRuntime(group: 'io.github.prospector', name: 'modmenu', version: '1.11.8+build.13') {
-        exclude module: 'fabric-api'
-    }
+//    modRuntime group: 'net.dblsaiko', name: 'winwonders', version: '0.1.2-4'
+//    modRuntime(group: 'io.github.prospector', name: 'modmenu', version: '1.11.8+build.13') {
+//        exclude module: 'fabric-api'
+//    }
 
     afterEvaluate {
         subprojects.each {
-            compile project(path: ":${it.name}", configuration: "dev")
+            implementation project(path: ":${it.name}", configuration: "dev")
             include project("${it.name}:")
         }
     }

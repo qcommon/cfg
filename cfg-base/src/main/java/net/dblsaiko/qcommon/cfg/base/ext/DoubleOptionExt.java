@@ -1,6 +1,6 @@
 package net.dblsaiko.qcommon.cfg.base.ext;
 
-import net.minecraft.client.options.DoubleOption;
+import net.minecraft.client.option.DoubleOption;
 
 public interface DoubleOptionExt {
 

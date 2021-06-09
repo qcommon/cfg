@@ -3,8 +3,8 @@ package net.dblsaiko.qcommon.cfg.keys;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.ingame.CreativeInventoryScreen;
-import net.minecraft.client.options.GameOptions;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.MathHelper;
 
@@ -117,11 +117,11 @@ public class VanillaKeyWrapper {
             if (client.inGameHud.getSpectatorHud().isOpen()) {
                 client.inGameHud.getSpectatorHud().cycleSlot((-i));
             } else {
-                float j = MathHelper.clamp(client.player.abilities.getFlySpeed() + i * 0.005f, 0.0f, 0.2f);
-                client.player.abilities.setFlySpeed(j);
+                float j = MathHelper.clamp(client.player.getAbilities().getFlySpeed() + i * 0.005f, 0.0f, 0.2f);
+                client.player.getAbilities().setFlySpeed(j);
             }
         } else {
-            client.player.inventory.scrollInHotbar(i);
+            client.player.getInventory().scrollInHotbar(i);
         }
     }
 

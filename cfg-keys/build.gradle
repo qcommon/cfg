@@ -1,5 +1,5 @@
 version = keys_version
 
 dependencies {
-    compile project(':cfg-core')
+    implementation project(':cfg-core')
 }

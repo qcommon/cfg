@@ -1,7 +1,7 @@
 package net.dblsaiko.qcommon.cfg.base.mixin;
 
 import net.dblsaiko.qcommon.cfg.base.ext.DoubleOptionExt;
-import net.minecraft.client.options.DoubleOption;
+import net.minecraft.client.option.DoubleOption;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

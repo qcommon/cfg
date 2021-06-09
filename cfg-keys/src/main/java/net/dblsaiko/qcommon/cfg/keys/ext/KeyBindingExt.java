@@ -1,6 +1,6 @@
 package net.dblsaiko.qcommon.cfg.keys.ext;
 
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 
 public interface KeyBindingExt {
 

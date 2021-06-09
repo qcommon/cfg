@@ -1,7 +1,7 @@
 package net.dblsaiko.qcommon.cfg.keys.mixin;
 
 import net.dblsaiko.qcommon.cfg.keys.ext.KeyBindingExt;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
